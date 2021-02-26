@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
         FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                /*String Firstname=snapshot.child("firstname").getValue().toString();
+                String Firstname=snapshot.child("firstname").getValue().toString();
                 String Lastname=snapshot.child("lastname").getValue().toString();
-                name.setText("Welcome "+ Firstname+" "+Lastname);*/
+                name.setText("Welcome "+ Firstname+" "+Lastname);
             }
 
             @Override
