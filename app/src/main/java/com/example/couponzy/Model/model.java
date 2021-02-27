@@ -21,6 +21,26 @@ public class model {
         fireBaseDB.getAllPosts(listener);
 
     }
+    public interface getUserByIdListener{
+        void onComplete(User user);
+    }
+    public void getUserById(String id, model.getUserByIdListener listener){
+        fireBaseDB.getUserById(id,listener);
+    }
+    public interface GetCouponsListener{
+        void onComplete(List<Coupon> data);
+    }
+
+    public void getCoupons(final GetCouponsListener listener) {
+        fireBaseDB.getCoupons(listener);
+
+    }
+    public interface getMyCouponsListener{
+        void onComplete(List<Coupon> data);
+    }
+    public void getMyCoupons(model.getMyCouponsListener listener) {
+        fireBaseDB.getMyCoupons(listener);
+    }
 
     public interface AddPostsListener{
         void onComplete();
@@ -51,6 +71,9 @@ public class model {
     }
     public  void uploadImage(Bitmap imageBmp, String name, final uploadImageListener listener){
         fireBaseDB.uploadImage(imageBmp,name,listener);
+    }
+    public  void getImage(Bitmap imageBmp, String name, final uploadImageListener listener){
+        fireBaseDB.getImage(imageBmp,name,listener);
     }
 
 }

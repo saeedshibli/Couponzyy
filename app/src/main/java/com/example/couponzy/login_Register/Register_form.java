@@ -2,7 +2,6 @@ package com.example.couponzy.login_Register;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,16 +32,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class Register_form extends AppCompatActivity {
 
     EditText txtemail,txtpassword,txtconfirmpassword,txtphone,txtfirstname,txtlastname,txtid,txtbirthday;
-    RadioButton male,female;
+    RadioButton male,female,user ,shop;
     Button Register;
     ProgressBar progressBar;
     DatabaseReference databaseReference;
@@ -65,6 +60,8 @@ public class Register_form extends AppCompatActivity {
         txtbirthday=findViewById(R.id.register_form_Birthday);
         male=findViewById(R.id.radioButton_male);
         female=findViewById(R.id.radioButton_female);
+        user=findViewById(R.id.radioButton_User);
+        shop=findViewById(R.id.radioButton_shop);
         Register=findViewById(R.id.register_form_Register_btn);
         progressBar=findViewById(R.id.register_form_progressbar);
         imageView=(ImageView)findViewById(R.id.imageView_user_register);
@@ -81,6 +78,7 @@ public class Register_form extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String gender="";
+                String level="";
                 String email= txtemail.getText().toString().trim();
                 String password=txtpassword.getText().toString().trim();
                 String passwordconfirm=txtconfirmpassword.getText().toString().trim();
@@ -90,6 +88,8 @@ public class Register_form extends AppCompatActivity {
                 String birthday=txtbirthday.getText().toString().trim();
                 String RadioMale=male.getText().toString().trim();
                 String Radiofemale=female.getText().toString().trim();
+                String RadioUser=user.getText().toString().trim();
+                String RadioShop=shop.getText().toString().trim();
                 String Phone=txtphone.getText().toString().trim();
                 String Imageurl;
                 if(male.isChecked()){
@@ -97,6 +97,12 @@ public class Register_form extends AppCompatActivity {
                 }
                 else{
                     gender="Female";
+                }
+                if(user.isChecked()){
+                    level="User";
+                }
+                else{
+                    level="Shop";
                 }
 
                 if(TextUtils.isEmpty((email))){
@@ -135,6 +141,10 @@ public class Register_form extends AppCompatActivity {
                     Toast.makeText(Register_form.this, "Please Enter Gender", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(TextUtils.isEmpty((RadioUser))&&TextUtils.isEmpty((RadioShop))){
+                    Toast.makeText(Register_form.this, "Please Enter Gender", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Bitmap bitmap = null;
                 if(imageView.getDrawable()!=null) {
                     try {
@@ -156,6 +166,7 @@ public class Register_form extends AppCompatActivity {
 
                     String finalGender = gender;
                     Bitmap finalBitmap = bitmap;
+                    String finalLevel = level;
                     FireBaseAuth.instance.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(Register_form.this, new OnCompleteListener<AuthResult>()
                             {
@@ -165,7 +176,13 @@ public class Register_form extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful())
                                     {
-                                        User information= new User(email,firstname,lastname,id,birthday, finalGender,Phone,"");
+                                        User information;
+                                        if(finalLevel.equals("User")) {
+                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, "",false,false,true);
+                                        }
+                                        else{
+                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, "",false,true,false);
+                                        }
                                         if(finalBitmap !=null)
                                         {
                                         model.instance.uploadImage(finalBitmap, id+email, new model.uploadImageListener()
@@ -186,10 +203,10 @@ public class Register_form extends AppCompatActivity {
                                                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                             @Override
                                                                                             public void onComplete(@NonNull Task<Void> task) {
-                                                                                                User information= new User(email,firstname,lastname,id,birthday, finalGender,Phone,imgPath);
+                                                                                                while (imgPath==null);
                                                                                                 FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
                                                                                                         .child("imgURL")
-                                                                                                        .setValue(information.getImgURL())
+                                                                                                        .setValue(imgPath.toString())
                                                                                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                                             @Override
                                                                                                             public void onComplete(@NonNull Task<Void> task) {

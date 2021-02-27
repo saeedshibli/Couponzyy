@@ -1,5 +1,6 @@
 package com.example.couponzy.Model;
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 
 import java.util.ArrayList;
@@ -14,6 +15,9 @@ public class User {
     public String imgURL;
     public String gender;
     public String phone;
+    public boolean isAdmin;
+    public boolean isShop;
+    public boolean isUser;
 
 
 
@@ -83,7 +87,7 @@ public class User {
     }
 
 
-    public User(String email, String firstname, String lastname, String id, String dateOfBirth, String gender, String phone,String imgURL) {
+    public User(String email, String firstname, String lastname, String id, String dateOfBirth, String gender, String phone,  String imgURL, boolean isAdmin, boolean isShop, boolean isUser) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -93,5 +97,9 @@ public class User {
         this.phone = phone;
         this.imgURL=imgURL;
         Posts=null;
+        this.isAdmin=isAdmin;
+        this.isUser=isUser;
+        this.isShop=isShop;
     }
+    public User(){}
 }

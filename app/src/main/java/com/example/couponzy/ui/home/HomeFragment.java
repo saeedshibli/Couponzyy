@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
 
             }
         });*/
-        model.instance.getAllPosts(new model.GetAllPostsListener() {
+        model.instance.getMyCoupons(new model.getMyCouponsListener() {
             @Override
             public void onComplete(List<Coupon> mydata) {
                 data = mydata;

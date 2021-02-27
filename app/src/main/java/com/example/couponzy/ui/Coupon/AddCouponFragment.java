@@ -184,7 +184,7 @@ public class AddCouponFragment extends Fragment {
     private void editImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Choose your profile picture");
+        builder.setTitle("Choose your Post picture");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {

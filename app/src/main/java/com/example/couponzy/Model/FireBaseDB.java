@@ -24,6 +24,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FireBaseDB {
+
+    public void getCoupons(model.GetCouponsListener listener) {
+        FireDataBase.instance.getReference("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Coupon> data = new ArrayList<Coupon>();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    if(!snapshot.getValue(Coupon.class).userId.equals(FireBaseAuth.instance.getCurrentUser().getUid())) {
+                        Coupon post = snapshot.getValue(Coupon.class);
+                        data.add(post);
+                    }
+                }
+                listener.onComplete(data);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+    public void getMyCoupons(model.getMyCouponsListener listener) {
+        FireDataBase.instance.getReference("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<Coupon> data = new ArrayList<Coupon>();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    if(snapshot.getValue(Coupon.class).userId.equals(FireBaseAuth.instance.getCurrentUser().getUid())) {
+                        Coupon post = snapshot.getValue(Coupon.class);
+                        data.add(post);
+                    }
+                }
+                listener.onComplete(data);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
     public void getAllPosts(model.GetAllPostsListener listener) {
 
         FireDataBase.instance.getReference("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -97,6 +138,22 @@ public class FireBaseDB {
             }
         });
     }
+    public void getUserById(String id, model.getUserByIdListener listener) {
+          FireDataBase.instance.getReference("User").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
+          {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if (!task.isSuccessful()) {
+                        Log.e("firebase", "Error getting data", task.getException());
+                    }
+                    else {
+                        User user=task.getResult().getValue(User.class);
+                        listener.onComplete(user);
+                        //Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    }
+                }
+            });
+    }
 
     public void deletePostByID(String id, model.deletePostByIdListener listener) {
         FirebaseFirestore db= FirebaseFirestore.getInstance();
@@ -114,6 +171,31 @@ public class FireBaseDB {
     }
 
     public  void uploadImage(Bitmap imageBmp, String name, final model.uploadImageListener listener){
+        FirebaseStorage storage=FirebaseStorage.getInstance();
+        final StorageReference imagesRef = storage.getReference().child("images").child(name);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imageBmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        UploadTask uploadTask = imagesRef.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception exception) {
+                listener.onComplete(null);
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imagesRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Uri downloadUrl = uri;
+                        listener.onComplete(downloadUrl.toString());
+                    }
+                });
+            }
+        });
+    }
+    public  void getImage(Bitmap imageBmp, String name, final model.uploadImageListener listener){
         FirebaseStorage storage=FirebaseStorage.getInstance();
         final StorageReference imagesRef = storage.getReference().child("images").child(name);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
