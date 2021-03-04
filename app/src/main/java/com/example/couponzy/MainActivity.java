@@ -3,6 +3,7 @@ package com.example.couponzy;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,10 +12,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
+import com.example.couponzy.Model.User;
+import com.example.couponzy.Model.model;
 import com.example.couponzy.login_Register.Login_form;
+import com.example.couponzy.ui.gallery.GalleryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.UserInfo;
@@ -25,6 +31,9 @@ import com.squareup.picasso.Picasso;
 
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -41,11 +50,13 @@ public class MainActivity extends AppCompatActivity {
     MenuItem Logout;
     MenuItem menuMyCoupons;
     Boolean Typee;
-
+    int Content,nav;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        NavigationView navigationView;
+
+
         /*TODO:Checking what type of user is the logged in*/
 
             setContentView(R.layout.activity_main);
@@ -53,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
-             navigationView = findViewById(R.id.nav_view);
+            navigationView = findViewById(R.id.nav_view);
 
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
@@ -76,8 +87,15 @@ public class MainActivity extends AppCompatActivity {
                 String Lastname=snapshot.child("lastname").getValue().toString();
                 name.setText("Welcome "+ Firstname+" "+Lastname);
                 userImage.setImageResource(R.drawable.ic_baseline_person_24);
-                if (snapshot.child("imgURL").getValue().toString() != null){
+                /*if (snapshot.child("imgURL").getValue().toString() != null&&snapshot.child("imgURL").getValue().toString()!=""){
                     Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                }*/
+                Boolean type=Boolean.parseBoolean(snapshot.child("isUser").getValue().toString());
+                if(type==true){
+                    NavigationMenuItemView navigationMenuItemView= findViewById(R.id.nav_home);
+                    navigationMenuItemView.setVisibility(headerView.GONE);
+                   // setContentView(R.layout.activity_main_user);
+                    //navigationView = findViewById(R.id.nav_view_user);
                 }
             }
 
@@ -97,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //setFragment(GalleryFragment);
     }
 
     @Override
@@ -112,5 +131,10 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
+    public void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
 }

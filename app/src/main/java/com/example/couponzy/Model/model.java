@@ -72,8 +72,11 @@ public class model {
     public  void uploadImage(Bitmap imageBmp, String name, final uploadImageListener listener){
         fireBaseDB.uploadImage(imageBmp,name,listener);
     }
-    public  void getImage(Bitmap imageBmp, String name, final uploadImageListener listener){
-        fireBaseDB.getImage(imageBmp,name,listener);
+    public interface getUserListener{
+        void onComplete(Boolean Type);
+    }
+    public void getUserType(String id, model.getUserListener listener) {
+        fireBaseDB.getUserType(id,listener);
     }
 
 }

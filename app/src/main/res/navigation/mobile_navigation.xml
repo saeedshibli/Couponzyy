@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.couponzy.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="My Coupons"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_addCouponFragment"
@@ -18,13 +18,13 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.couponzy.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="Coupons"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.couponzy.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="My Account"
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/addCouponFragment"

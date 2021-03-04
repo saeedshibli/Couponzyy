@@ -33,9 +33,15 @@ import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
 import com.example.couponzy.login_Register.Register_form;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -217,6 +223,7 @@ public class AddCouponFragment extends Fragment {
                 case 1:
                     if (resultCode == RESULT_OK && data != null) {
                         Uri selectedImage =  data.getData();
+                        imageView.setImageURI(selectedImage);
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         if (selectedImage != null) {
                             Cursor cursor = getActivity().getContentResolver().query(selectedImage,
@@ -225,7 +232,7 @@ public class AddCouponFragment extends Fragment {
                                 cursor.moveToFirst();
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
-                                imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                                //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                                 cursor.close();
                             }
                         }
@@ -234,6 +241,7 @@ public class AddCouponFragment extends Fragment {
             }
         }
     }
+
     private void displayFailedError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Operation Failed");

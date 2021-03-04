@@ -154,6 +154,22 @@ public class FireBaseDB {
                 }
             });
     }
+    public void getUserType(String id, model.getUserListener listener) {
+        FireDataBase.instance.getReference("User").child(id).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Boolean type=task.getResult().getValue(User.class).isUser;
+                    listener.onComplete(type);
+                    //Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
+    }
 
     public void deletePostByID(String id, model.deletePostByIdListener listener) {
         FirebaseFirestore db= FirebaseFirestore.getInstance();
