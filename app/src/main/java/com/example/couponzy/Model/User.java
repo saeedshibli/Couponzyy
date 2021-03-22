@@ -1,12 +1,16 @@
 package com.example.couponzy.Model;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.ArrayList;
 
 @Entity
 public class User {
+    @PrimaryKey
+    @NonNull
     public String email;
     public String firstname;
     public String lastname;
@@ -18,8 +22,6 @@ public class User {
     public boolean isAdmin;
     public boolean isShop;
     public boolean isUser;
-
-
 
     public ArrayList<String>Posts=null;
 

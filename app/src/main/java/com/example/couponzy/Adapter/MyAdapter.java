@@ -16,14 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>{
-    private List<Coupon> list=new ArrayList<>();
+    public List<Coupon> list=new ArrayList<>();
+    LayoutInflater inflater;
     private OnItemClickListener Listener;
     public interface OnItemClickListener{
         void onItemClick(int position);
     }
+
     public void setOnItemClickListener(OnItemClickListener listener){
         Listener=listener;
     }
+
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public TextView title,price,priceDiscount,description,expireDate,distance,couponCode;
         public ImageView userImage,postImage;
@@ -56,6 +59,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         list = exampleList;
     }
 
+    public MyAdapter(LayoutInflater layoutInflater) {
+        inflater = layoutInflater;
+    }
+
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.coupon_list_row, parent, false);
         ExampleViewHolder evh = new ExampleViewHolder(v,Listener);
@@ -76,9 +83,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         if (coupon.getPostImg() != null){
             Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(holder.postImage);
         }
-        if (coupon.getProfileImg() != null){
+        /*if (coupon.getProfileImg() != null){
             Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
-        }
+        }*/
 
     }
     @Override

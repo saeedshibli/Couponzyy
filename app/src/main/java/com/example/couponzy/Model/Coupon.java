@@ -1,6 +1,8 @@
 package com.example.couponzy.Model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -8,7 +10,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Random;
 
+@Entity
 public class Coupon {
+    @PrimaryKey
+    @NonNull
     public String id;
     public String userName, userId,timestamp,profileImg,postImg,expireDate,couponCode,description,title,distance;
     public double price,discountPrice;

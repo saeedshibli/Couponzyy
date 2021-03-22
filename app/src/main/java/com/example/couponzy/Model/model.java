@@ -1,7 +1,11 @@
 package com.example.couponzy.Model;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class model {
@@ -17,6 +21,10 @@ public class model {
         void onComplete(List<Coupon> data);
     }
 
+    public interface Listener<T>{
+        void onComplete(T result);
+    }
+
     public void getAllPosts(final GetAllPostsListener listener) {
         fireBaseDB.getAllPosts(listener);
 
@@ -27,19 +35,37 @@ public class model {
     public void getUserById(String id, model.getUserByIdListener listener){
         fireBaseDB.getUserById(id,listener);
     }
-    public interface GetCouponsListener{
-        void onComplete(List<Coupon> data);
+
+    public interface GetCouponsListener extends Listener<List<Coupon>>{}
+    MutableLiveData<List<Coupon>> CouponsList = new MutableLiveData<List<Coupon>>();
+    public MutableLiveData<List<Coupon>> getCoupons() {
+        return CouponsList;
     }
 
-    public void getCoupons(final GetCouponsListener listener) {
-        fireBaseDB.getCoupons(listener);
+    public void refreshCoupons(Listener listener){
+        fireBaseDB.getCoupons(new GetCouponsListener() {
+            @Override
+            public void onComplete(List<Coupon> result) {
+                CouponsList.setValue(result);
+                listener.onComplete(null);
+            }
+        });
+    }
 
+    public interface getMyCouponsListener extends Listener<List<Coupon>>{}
+    MutableLiveData<List<Coupon>> myCouponsList = new MutableLiveData<List<Coupon>>();
+    public MutableLiveData<List<Coupon>> getMyCoupons() {
+        return myCouponsList;
     }
-    public interface getMyCouponsListener{
-        void onComplete(List<Coupon> data);
-    }
-    public void getMyCoupons(model.getMyCouponsListener listener) {
-        fireBaseDB.getMyCoupons(listener);
+
+    public void refreshMyCoupons(Listener listener){
+        fireBaseDB.getMyCoupons(new getMyCouponsListener() {
+            @Override
+            public void onComplete(List<Coupon> result) {
+                myCouponsList.setValue(result);
+                listener.onComplete(null);
+            }
+        });
     }
 
     public interface AddPostsListener{
