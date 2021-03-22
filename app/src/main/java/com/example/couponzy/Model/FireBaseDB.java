@@ -21,6 +21,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FireBaseDB {
@@ -56,6 +57,7 @@ public class FireBaseDB {
                         data.add(post);
                     }
                 }
+
                 listener.onComplete(data);
             }
 

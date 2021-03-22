@@ -55,25 +55,26 @@ public class AddCouponFragment extends Fragment {
     TextView datepicker;
     ImageView imageView;
     ImageButton imageButton;
-    Button save,cancel;
-    EditText name,description,price,priceAfterDiscount;
+    Button save, cancel;
+    EditText name, description, price, priceAfterDiscount;
     String sdate;
     SimpleDateFormat sdf;
     Date resultdate;
     View view;
-    boolean flagimg=false;
+    boolean flagimg = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_add_coupon, container, false);
+        view = inflater.inflate(R.layout.fragment_add_coupon, container, false);
         //Constracting Values
-        name=view.findViewById(R.id.editbox_new_coupon_name);
-        description=view.findViewById(R.id.editbox_new_coupon_description);
-        imageView=view.findViewById(R.id.imageView_post_image);
-        imageButton=view.findViewById(R.id.addNewCoupon_imageButton);
-        price=view.findViewById(R.id.editbox_new_coupon_price);
-        priceAfterDiscount=view.findViewById(R.id.editbox_new_coupon_pricediscount);
+        imageView = view.findViewById(R.id.imageView_post_image);
+        imageButton = view.findViewById(R.id.addNewCoupon_imageButton);
+        name = view.findViewById(R.id.editbox_new_coupon_name);
+        description = view.findViewById(R.id.editbox_new_coupon_description);
+        price = view.findViewById(R.id.editbox_new_coupon_price);
+        priceAfterDiscount = view.findViewById(R.id.editbox_new_coupon_pricediscount);
 
         /*DatePicker*/
         {
@@ -89,7 +90,7 @@ public class AddCouponFragment extends Fragment {
                             getActivity(), new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker datePicker2, int year, int month, int dayOfMonth) {
-                            month=month+1;
+                            month = month + 1;
                             sdate = dayOfMonth + "/" + month + "/" + year;
                             datepicker.setText(sdate);
                         }
@@ -108,7 +109,7 @@ public class AddCouponFragment extends Fragment {
         }
 
         cancel = view.findViewById(R.id.button_new_coupon_cancel);
-        save=view.findViewById(R.id.button_new_coupon_save);
+        save = view.findViewById(R.id.button_new_coupon_save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +120,7 @@ public class AddCouponFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view)
-                        .popBackStack(R.id.nav_home,false);
+                        .popBackStack(R.id.nav_home, false);
 
             }
         });
@@ -132,8 +133,9 @@ public class AddCouponFragment extends Fragment {
         });
         return view;
     }
-    private void addPost(){
-        Coupon post=new Coupon();
+
+    private void addPost() {
+        final Coupon post = new Coupon();
         //post.setID(studid.getText().toString());
         post.setTitle(name.getText().toString());
         post.setDescription(description.getText().toString());
@@ -146,7 +148,7 @@ public class AddCouponFragment extends Fragment {
                 String Firstname = snapshot.child("firstname").getValue().toString();
                 String Lastname = snapshot.child("lastname").getValue().toString();
                 post.setUserName(Firstname + Lastname);
-                String ImgUrl= snapshot.child("imgURL").getValue().toString();
+                String ImgUrl = snapshot.child("imgURL").getValue().toString();
                 post.setProfileImg(ImgUrl);
             }
 
@@ -160,7 +162,7 @@ public class AddCouponFragment extends Fragment {
         post.setExpireDate(sdate);
         post.setDistance("0 M");
         Bitmap bitmap = null;
-        if(flagimg==true) {
+        if (flagimg == true) {
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             bitmap = drawable.getBitmap();
 
@@ -181,14 +183,14 @@ public class AddCouponFragment extends Fragment {
                 }
 
             });
-        }
-        else{
+        } else {
             Toast.makeText(getActivity(), "Please enter a photo", Toast.LENGTH_SHORT).show();
             return;
         }
     }
+
     private void editImage() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose your Post picture");
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -199,7 +201,7 @@ public class AddCouponFragment extends Fragment {
                     startActivityForResult(takePicture, 0);
                 } else if (options[item].equals("Choose from Gallery")) {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto , 1);
+                    startActivityForResult(pickPhoto, 1);
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
@@ -207,12 +209,13 @@ public class AddCouponFragment extends Fragment {
         });
         builder.show();
     }
+
     //static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        imageView=view.findViewById(R.id.imageView_add_coupon);
-        if(resultCode != RESULT_CANCELED) {
-            flagimg=true;
+        imageView = view.findViewById(R.id.imageView_add_coupon);
+        if (resultCode != RESULT_CANCELED) {
+            flagimg = true;
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
@@ -222,7 +225,7 @@ public class AddCouponFragment extends Fragment {
                     break;
                 case 1:
                     if (resultCode == RESULT_OK && data != null) {
-                        Uri selectedImage =  data.getData();
+                        Uri selectedImage = data.getData();
                         imageView.setImageURI(selectedImage);
                         String[] filePathColumn = {MediaStore.Images.Media.DATA};
                         if (selectedImage != null) {

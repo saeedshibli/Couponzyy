@@ -1,4 +1,4 @@
-package com.example.couponzy.ui.slideshow;
+package com.example.couponzy.ui.MyAccount;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,41 +19,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.example.couponzy.Model.DownloadImageTask;
 import com.example.couponzy.Model.FireBaseAuth;
-import com.example.couponzy.Model.FireBaseDB;
 import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.Model.User;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
-import com.example.couponzy.login_Register.Register_form;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class SlideshowFragment extends Fragment {
+public class MyAccountFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private MyAccountViewModel slideshowViewModel;
     EditText txtemail,txtpassword,txtconfirmpassword,txtphone,txtfirstname,txtlastname,txtid,txtbirthday;
     RadioButton male,female;
     Button save,cancel;
@@ -71,16 +55,17 @@ public class SlideshowFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+                new ViewModelProvider(this).get(MyAccountViewModel.class);
         view = inflater.inflate(R.layout.fragment_slideshow, container, false);
+
         txtemail=view.findViewById(R.id.edit_form_email);
-        txtphone=view.findViewById(R.id.edit_form_phone);
         txtfirstname=view.findViewById(R.id.edit_form_first_name);
         txtlastname=view.findViewById(R.id.edit_form_last_name);
         txtid=view.findViewById(R.id.edit_form_id);
         txtbirthday=view.findViewById(R.id.edit_form_Birthday);
         male=view.findViewById(R.id.radioButton_male_edit);
         female=view.findViewById(R.id.radioButton_female_edit);
+        txtphone=view.findViewById(R.id.edit_form_phone);
         save=view.findViewById(R.id.edit_form_save_btn);
         cancel=view.findViewById(R.id.edit_form_cancel_btn);
         progressBar=view.findViewById(R.id.edit_form_progressbar);
