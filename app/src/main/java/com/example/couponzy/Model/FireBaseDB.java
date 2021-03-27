@@ -20,11 +20,38 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+class CurrentDateTimeExample {
 
-public class FireBaseDB {
+public static Date  GetCurrentDate(){
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    Date date = new Date();
+    return date;
+}
+
+public static Date GetCurrentDateFromString(String date)  {
+    Date date1= null;
+    if(date==null ||date.isEmpty())
+    {
+        return GetCurrentDate();
+    }
+    try
+    {
+        date1 = new SimpleDateFormat("dd/MM/yyyy").parse(date);
+    }
+    catch (ParseException e)
+    {
+        e.printStackTrace();
+    }
+    return date1;
+}
+}
+    public class FireBaseDB {
 
     public void getCoupons(model.GetCouponsListener listener) {
         FireDataBase.instance.getReference("Posts").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -32,7 +59,9 @@ public class FireBaseDB {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Coupon> data = new ArrayList<Coupon>();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    if(!snapshot.getValue(Coupon.class).userId.equals(FireBaseAuth.instance.getCurrentUser().getUid())) {
+                    if(!snapshot.getValue(Coupon.class).userId.equals(FireBaseAuth.instance.getCurrentUser().getUid())&&
+                            CurrentDateTimeExample.GetCurrentDateFromString(snapshot.getValue(Coupon.class).expireDate).after(CurrentDateTimeExample.GetCurrentDate()))
+                    {
                         Coupon post = snapshot.getValue(Coupon.class);
                         data.add(post);
                     }

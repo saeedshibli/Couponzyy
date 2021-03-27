@@ -83,9 +83,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         if (coupon.getPostImg() != null){
             Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(holder.postImage);
         }
-        /*if (coupon.getProfileImg() != null){
+        if (coupon.getProfileImg() != null){
             Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
-        }*/
+        }
 
     }
     @Override

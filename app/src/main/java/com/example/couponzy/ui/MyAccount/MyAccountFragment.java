@@ -1,11 +1,14 @@
 package com.example.couponzy.ui.MyAccount;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,6 +25,8 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -31,6 +36,7 @@ import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.Model.User;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +75,7 @@ public class MyAccountFragment extends Fragment {
         save=view.findViewById(R.id.edit_form_save_btn);
         cancel=view.findViewById(R.id.edit_form_cancel_btn);
         progressBar=view.findViewById(R.id.edit_form_progressbar);
-        imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
+        imageView=view.findViewById(R.id.imageView_user_edit);
         imageButton=view.findViewById(R.id.userEdit_imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,22 +178,25 @@ public class MyAccountFragment extends Fragment {
             FireDataBase.instance.getReference("User").child(currentUserId).child("gender").setValue(gender);
             FireDataBase.instance.getReference("User").child(currentUserId).child("phone").setValue(Phone);
             //TODO: add image editing
-           /* BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
-            if(bitmap !=null&&flagimg==true) {
-                model.instance.uploadImage(bitmap, id + email, new model.uploadImageListener() {
+           /* Bitmap bitmap = null;
+            if (flagimg == true) {
+                imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                bitmap = drawable.getBitmap();
+
+                model.instance.uploadImage(bitmap, FirebaseAuth.getInstance().getUid(), new model.uploadImageListener() {
                     @Override
                     public void onComplete(String ImgUrl) {
                         if (ImgUrl == null) {
                             displayFailedError();
                         }
-
-                        imgPath = ImgUrl;
+                        if(ImgUrl!=null)
+                        user.setImgURL(ImgUrl);
                     }
 
                 });
-                FireDataBase.instance.getReference("User").child(currentUserId).child("imgURL").setValue(imgPath);
-            }*/
+            }
+*/
             //returing back to home
             Navigation.findNavController(view)
                     .popBackStack(R.id.nav_home, false);
@@ -196,7 +205,22 @@ public class MyAccountFragment extends Fragment {
 
         return view;
     }
+    static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 1;
     private void editImage() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_READ_EXTERNAL_STORAGE);
+            }
+        }
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Choose your profile picture");
@@ -226,6 +250,7 @@ public class MyAccountFragment extends Fragment {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
                         Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
+                        if(selectedImage==null)return;
                         imageView.setImageBitmap(selectedImage);
                     }
                     break;
@@ -240,6 +265,7 @@ public class MyAccountFragment extends Fragment {
                                 cursor.moveToFirst();
                                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                                 String picturePath = cursor.getString(columnIndex);
+                                imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
                                 imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
                                 cursor.close();
                             }
