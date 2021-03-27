@@ -87,7 +87,8 @@ public class MyAccountFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).popBackStack();
+                Navigation.findNavController(view)
+                        .popBackStack(R.id.nav_home, false);
             }
         });
 
@@ -167,7 +168,25 @@ public class MyAccountFragment extends Fragment {
                     }
                 });*/
                 //TODO: add image editing
+           /* Bitmap bitmap = null;
+            if (flagimg == true) {
+                imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                bitmap = drawable.getBitmap();
 
+                model.instance.uploadImage(bitmap, FirebaseAuth.getInstance().getUid(), new model.uploadImageListener() {
+                    @Override
+                    public void onComplete(String ImgUrl) {
+                        if (ImgUrl == null) {
+                            displayFailedError();
+                        }
+                        if(ImgUrl!=null)
+                        user.setImgURL(ImgUrl);
+                    }
+
+                });
+            }
+*/
                 //returing back to home
                 Navigation.findNavController(view).popBackStack();
             }
@@ -199,96 +218,6 @@ public class MyAccountFragment extends Fragment {
                 }
             }
         });
-    cancel.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Navigation.findNavController(view)
-                    .popBackStack(R.id.nav_home, false);
-        }
-    });
-        /*Saving new details*/
-    save.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String gender="";
-            String level="";
-            String email= txtemail.getText().toString().trim();
-            String firstname=txtfirstname.getText().toString().trim();
-            String lastname=txtlastname.getText().toString().trim();
-            String id=txtid.getText().toString().trim();
-            String birthday=txtbirthday.getText().toString().trim();
-            String RadioMale=male.getText().toString().trim();
-            String Radiofemale=female.getText().toString().trim();
-            String Phone=txtphone.getText().toString().trim();
-            String Imageurl;
-            if(male.isChecked()){
-                gender="Male";
-            }
-            else{
-                gender="Female";
-            }
-
-            if(TextUtils.isEmpty((email))){
-                Toast.makeText(getActivity(), "Please Enter Email", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty((Phone))){
-                Toast.makeText(getActivity(), "Please Enter phone", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty((firstname))){
-                Toast.makeText(getActivity(), "Please Enter firstName", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty((lastname))){
-                Toast.makeText(getActivity(), "Please Enter lastName", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty((id))){
-                Toast.makeText(getActivity(), "Please Enter ID", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty((birthday))){
-                Toast.makeText(getActivity(), "Please Enter birthday", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if(TextUtils.isEmpty((RadioMale))&&TextUtils.isEmpty((Radiofemale))){
-                Toast.makeText(getActivity(), "Please Enter Gender", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            FireDataBase.instance.getReference("User").child(currentUserId).child("email").setValue(email);
-            FireDataBase.instance.getReference("User").child(currentUserId).child("firstname").setValue(firstname);
-            FireDataBase.instance.getReference("User").child(currentUserId).child("lastname").setValue(lastname);
-            FireDataBase.instance.getReference("User").child(currentUserId).child("id").setValue(id);
-            FireDataBase.instance.getReference("User").child(currentUserId).child("dateOfBirth").setValue(birthday);
-            FireDataBase.instance.getReference("User").child(currentUserId).child("gender").setValue(gender);
-            FireDataBase.instance.getReference("User").child(currentUserId).child("phone").setValue(Phone);
-            //TODO: add image editing
-           /* Bitmap bitmap = null;
-            if (flagimg == true) {
-                imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
-                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                bitmap = drawable.getBitmap();
-
-                model.instance.uploadImage(bitmap, FirebaseAuth.getInstance().getUid(), new model.uploadImageListener() {
-                    @Override
-                    public void onComplete(String ImgUrl) {
-                        if (ImgUrl == null) {
-                            displayFailedError();
-                        }
-                        if(ImgUrl!=null)
-                        user.setImgURL(ImgUrl);
-                    }
-
-                });
-            }
-*/
-            //returing back to home
-            Navigation.findNavController(view)
-                    .popBackStack(R.id.nav_home, false);
-        }
-    });
-
 
         retrieveUser();
 

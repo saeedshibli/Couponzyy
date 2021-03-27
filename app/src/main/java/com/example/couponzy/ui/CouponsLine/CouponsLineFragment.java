@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ public class CouponsLineFragment extends Fragment {
     private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     SwipeRefreshLayout sref;
+    ProgressBar progressBar;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class CouponsLineFragment extends Fragment {
         couponsLineViewModel = new ViewModelProvider(this).get(CouponsLineViewModel.class);
 
         View view = inflater.inflate(R.layout.fragment_couponsline, container, false);
-
+        progressBar=view.findViewById(R.id.PostsList_progressBar);
         postslist = (RecyclerView)view.findViewById(R.id.main_recycler_v_gallery);
         postslist.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -48,23 +51,27 @@ public class CouponsLineFragment extends Fragment {
                 ReloadData();
             }
         });
-
+        progressBar.setVisibility(View.VISIBLE);
         couponsLineViewModel.getCoupons().observe(getViewLifecycleOwner(), new Observer<List<Coupon>>() {
+
             @Override
             public void onChanged(List<Coupon> coupons) {
                 mAdapter = new MyAdapter(couponsLineViewModel.getCoupons().getValue());
                 postslist.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
         return view;
     }
     void ReloadData(){
+
         model.instance.refreshCoupons(new model.GetCouponsListener() {
             @Override
             public void onComplete() {
                 sref.setRefreshing(false);
+
             }
         });
     }
