@@ -6,15 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,30 +23,20 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
-import com.example.couponzy.login_Register.Register_form;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+import java.util.Random;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-
 
 public class AddCouponFragment extends Fragment {
     TextView datepicker;
@@ -66,6 +53,7 @@ public class AddCouponFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_add_coupon, container, false);
         //Constracting Values
@@ -101,6 +89,7 @@ public class AddCouponFragment extends Fragment {
                 }
             });
         }
+
         /*CurrentTime*/
         {
             long yourmilliseconds = System.currentTimeMillis();
@@ -121,7 +110,6 @@ public class AddCouponFragment extends Fragment {
             public void onClick(View view) {
                 Navigation.findNavController(view)
                         .popBackStack(R.id.nav_home, false);
-
             }
         });
 
@@ -131,12 +119,22 @@ public class AddCouponFragment extends Fragment {
                 editImage();
             }
         });
+
         return view;
     }
 
     private void addPost() {
         final Coupon post = new Coupon();
-        //post.setID(studid.getText().toString());
+        final int minc = 90000;
+        final int maxc = 99999;
+        final int minu = 900000000;
+        final int maxu = 999999999;
+        final int random = new Random().nextInt((maxc - minc) + 1) + minc;
+        final int random2 = new Random().nextInt((maxu - minu) + 1) + minu;
+
+        post.couponCode =Integer.toString(random);
+        post.id=Integer.toString(random2);
+
         post.setTitle(name.getText().toString());
         post.setDescription(description.getText().toString());
         post.setPrice(Double.parseDouble(price.getText().toString()));
@@ -181,7 +179,6 @@ public class AddCouponFragment extends Fragment {
                         }
                     });
                 }
-
             });
         } else {
             Toast.makeText(getActivity(), "Please enter a photo", Toast.LENGTH_SHORT).show();
@@ -210,7 +207,6 @@ public class AddCouponFragment extends Fragment {
         builder.show();
     }
 
-    //static final int REQUEST_IMAGE_CAPTURE = 1;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         imageView = view.findViewById(R.id.imageView_add_coupon);

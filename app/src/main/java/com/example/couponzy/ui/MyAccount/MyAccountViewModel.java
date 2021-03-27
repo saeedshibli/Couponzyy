@@ -1,19 +1,26 @@
 package com.example.couponzy.ui.MyAccount;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import com.example.couponzy.Model.User;
+import com.example.couponzy.Model.model;
 
 public class MyAccountViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<String> currentUserId;
+    private MutableLiveData<User> activeUser;
 
     public MyAccountViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        currentUserId =  model.instance.getCurrentUserId();
+        activeUser = model.instance.getUserById();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public MutableLiveData<String> getCurrentUserId() {
+        return currentUserId;
     }
+
+    public MutableLiveData<User> getActivetUser() {
+        return activeUser;
+    }
+
 }
