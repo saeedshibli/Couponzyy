@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView_add_coupon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200px"
+        android:layout_height="200px"
         android:layout_marginStart="32dp"
         android:layout_marginTop="84dp"
         app:layout_constraintStart_toStartOf="parent"
