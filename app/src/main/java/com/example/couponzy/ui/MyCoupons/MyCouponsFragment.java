@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -14,34 +13,29 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.couponzy.Adapter.MyAdapter;
 import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.ServerValue;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class MyCouponsFragment extends Fragment {
 
-    private MyCouponsViewModel homeViewModel;
+    private MyCouponsViewModel myCouponsViewModel;
     private RecyclerView postslist;
     private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    List<Coupon> data;
-    ProgressBar progressBar;
     FloatingActionButton addPost;
+    SwipeRefreshLayout sref;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel = new ViewModelProvider(this).get(MyCouponsViewModel.class);
+        myCouponsViewModel = new ViewModelProvider(this).get(MyCouponsViewModel.class);
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        progressBar = view.findViewById(R.id.PostsList_progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
+        View view = inflater.inflate(R.layout.fragment_mycoupons, container, false);
 
         postslist = view.findViewById(R.id.main_recycler_v);
         postslist.setHasFixedSize(true);
@@ -57,28 +51,36 @@ public class MyCouponsFragment extends Fragment {
             }
         });
 
-        homeViewModel.getMyCoupons().observe(getViewLifecycleOwner(), new Observer<List<Coupon>>() {
+        sref = view.findViewById(R.id.mycouponslist_swipe);
+
+        sref.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                sref.setRefreshing(true);
+                ReloadData();
+
+            }
+        });
+
+        myCouponsViewModel.getMyCoupons().observe(getViewLifecycleOwner(), new Observer<List<Coupon>>() {
             @Override
             public void onChanged(List<Coupon> coupons) {
-                data = homeViewModel.getMyCoupons().getValue();
-                mAdapter = new MyAdapter(data);
+                mAdapter = new MyAdapter(myCouponsViewModel.getMyCoupons().getValue());
                 postslist.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }
         });
 
-        ReloadData();
         return view;
     }
 
     void ReloadData() {
-        progressBar.setVisibility(View.VISIBLE);
         addPost.setEnabled(false);
         model.instance.refreshMyCoupons(new model.getMyCouponsListener() {
             @Override
-            public void onComplete(List<Coupon> data) {
-                progressBar.setVisibility(View.INVISIBLE);
+            public void onComplete() {
                 addPost.setEnabled(true);
+                sref.setRefreshing(false);
             }
         });
     }

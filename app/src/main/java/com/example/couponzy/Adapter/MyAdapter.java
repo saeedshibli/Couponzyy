@@ -15,21 +15,23 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>{
-    public List<Coupon> list=new ArrayList<>();
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder> {
+    public List<Coupon> list = new ArrayList<>();
     LayoutInflater inflater;
     private OnItemClickListener Listener;
-    public interface OnItemClickListener{
+
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener){
-        Listener=listener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        Listener = listener;
     }
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
-        public TextView title,price,priceDiscount,description,expireDate,distance,couponCode;
-        public ImageView userImage,postImage;
+        public TextView title, price, priceDiscount, description, expireDate, distance, couponCode;
+        public ImageView userImage, postImage;
+
         public ExampleViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.textView_main_title);
@@ -44,9 +46,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(listener!=null){
-                        int postion=getAdapterPosition();
-                        if(postion!=RecyclerView.NO_POSITION){
+                    if (listener != null) {
+                        int postion = getAdapterPosition();
+                        if (postion != RecyclerView.NO_POSITION) {
                             listener.onItemClick(postion);
                         }
                     }
@@ -55,6 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
 
         }
     }
+
     public MyAdapter(List<Coupon> exampleList) {
         list = exampleList;
     }
@@ -65,7 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
 
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.coupon_list_row, parent, false);
-        ExampleViewHolder evh = new ExampleViewHolder(v,Listener);
+        ExampleViewHolder evh = new ExampleViewHolder(v, Listener);
         return evh;
     }
 
@@ -80,7 +83,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         holder.couponCode.setText(coupon.getCouponCode());
         holder.userImage.setImageResource(R.drawable.ic_baseline_person_24);
         holder.postImage.setImageResource(R.drawable.ic_launcher_background);
-        if (coupon.getPostImg() != null){
+        if (coupon.getPostImg() != null) {
             Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(holder.postImage);
         }
         /*if (coupon.getProfileImg() != null){
@@ -88,17 +91,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         }*/
 
     }
+
     @Override
     public int getItemCount() {
 
-        if(list==null){
+        if (list == null) {
             return 0;
         }
         return list.size();
 
 
     }
-
 
 
 }
