@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.login_Register.Login_form;
@@ -17,8 +16,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -44,22 +41,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         /*TODO:Checking what type of user is the logged in*/
 
-            setContentView(R.layout.activity_main); ///////////////////////
-            //FireBaseAuth.instance.signOut();
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); ///////////////////////
-            setSupportActionBar(toolbar); ///////////////////////
-            DrawerLayout drawer = findViewById(R.id.drawer_layout); ///////////////////////
-            navigationView = findViewById(R.id.nav_view); ///////////////////////
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            navigationView = findViewById(R.id.nav_view);
 
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
-            mAppBarConfiguration = new AppBarConfiguration.Builder( ///////////////////////
-                    R.id.nav_gallery, R.id.nav_home, R.id.nav_slideshow, R.id.nav_Logout) ///////////////////////
-                    .setOpenableLayout(drawer) ///////////////////////
-                    .build(); ///////////////////////
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_gallery, R.id.nav_home, R.id.nav_slideshow, R.id.nav_Logout)
+                    .setOpenableLayout(drawer)
+                    .build();
         /*Adding Custom Email and Username to HeaderPanel*/
         View headerView = navigationView.getHeaderView(0);
         String CurrentEmail = FireBaseAuth.instance.getCurrentUser().getEmail();
@@ -82,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 if(type==true){
                     NavigationMenuItemView navigationMenuItemView= findViewById(R.id.nav_home);
                     navigationMenuItemView.setVisibility(headerView.GONE);
-                   // setContentView(R.layout.activity_main_user);
-                    //navigationView = findViewById(R.id.nav_view_user);
                 }
             }
 
@@ -99,25 +92,25 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);///////////////////////
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);///////////////////////
-        NavigationUI.setupWithNavController(navigationView, navController);///////////////////////
+        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigationView, navController);
         //setFragment(GalleryFragment);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {///////////////////////
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);///////////////////////
-        return true;///////////////////////
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
-    public boolean onSupportNavigateUp() {///////////////////////
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);///////////////////////
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)///////////////////////
-                || super.onSupportNavigateUp();///////////////////////
+    public boolean onSupportNavigateUp() {
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
     }
     public void setFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
