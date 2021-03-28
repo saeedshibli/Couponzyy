@@ -1,15 +1,19 @@
 package com.example.couponzy.ui.Coupon;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import android.provider.MediaStore;
@@ -35,6 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -131,7 +137,6 @@ public class AddCouponFragment extends Fragment {
         final int maxu = 999999999;
         final int random = new Random().nextInt((maxc - minc) + 1) + minc;
         final int random2 = new Random().nextInt((maxu - minu) + 1) + minu;
-
         post.couponCode =Integer.toString(random);
         post.id=Integer.toString(random2);
 
@@ -139,6 +144,10 @@ public class AddCouponFragment extends Fragment {
         post.setDescription(description.getText().toString());
         post.setPrice(Double.parseDouble(price.getText().toString()));
         post.setDiscountPrice(Double.parseDouble(priceAfterDiscount.getText().toString()));
+        if(Double.parseDouble(price.getText().toString())<Double.parseDouble(priceAfterDiscount.getText().toString())){
+            Toast.makeText(getActivity(), "Please Insert PriceAfterDiscount bigger than Normal Price", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -185,7 +194,7 @@ public class AddCouponFragment extends Fragment {
             return;
         }
     }
-
+    //static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
     private void editImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -253,4 +262,5 @@ public class AddCouponFragment extends Fragment {
         });
         builder.show();
     }
+
 }

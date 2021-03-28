@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -69,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
                 String Lastname=snapshot.child("lastname").getValue().toString();
                 name.setText("Welcome "+ Firstname+" "+Lastname);
                 userImage.setImageResource(R.drawable.ic_baseline_person_24);
-
+                if (snapshot.child("imgURL").getValue().toString() != null&&snapshot.child("imgURL").getValue().toString()!=""){
+                    Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                }
                 Boolean type=Boolean.parseBoolean(snapshot.child("isUser").getValue().toString());
                 if(type==true){
                     NavigationMenuItemView navigationMenuItemView= findViewById(R.id.nav_home);

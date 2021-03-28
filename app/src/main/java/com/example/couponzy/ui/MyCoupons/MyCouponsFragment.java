@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ public class MyCouponsFragment extends Fragment {
     private MyCouponsViewModel myCouponsViewModel;
     private RecyclerView postslist;
     private MyAdapter mAdapter;
+    ProgressBar progressBar;
     private RecyclerView.LayoutManager mLayoutManager;
     FloatingActionButton addPost;
     SwipeRefreshLayout sref;
@@ -41,7 +44,7 @@ public class MyCouponsFragment extends Fragment {
         postslist.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         postslist.setLayoutManager(mLayoutManager);
-
+        progressBar=view.findViewById(R.id.postsList_progressBar_MyCoupons);
         addPost = view.findViewById(R.id.postslist_add_button);
         addPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +64,14 @@ public class MyCouponsFragment extends Fragment {
 
             }
         });
-
+        progressBar.setVisibility(View.VISIBLE);
         myCouponsViewModel.getMyCoupons().observe(getViewLifecycleOwner(), new Observer<List<Coupon>>() {
             @Override
             public void onChanged(List<Coupon> coupons) {
                 mAdapter = new MyAdapter(myCouponsViewModel.getMyCoupons().getValue());
                 postslist.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
