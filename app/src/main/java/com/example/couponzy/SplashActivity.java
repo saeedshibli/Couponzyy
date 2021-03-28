@@ -2,9 +2,14 @@ package com.example.couponzy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.R;
@@ -12,11 +17,31 @@ import com.example.couponzy.login_Register.Login_form;
 
 public class SplashActivity extends AppCompatActivity {
 
+    ProgressBar progressBar;
+    int progress=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        progressBar = findViewById(R.id.splash_progressbar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        new CountDownTimer(2400, 20) {
+
+            public void onTick(long millisUntilFinished) {
+                progress=progress+1;
+                progressBar.setProgress(progress);
+            }
+
+            public void onFinish() {
+                startApp();
+            }
+
+        }.start();
+    }
+
+    private void startApp() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -27,8 +52,9 @@ public class SplashActivity extends AppCompatActivity {
                 else{
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
+                progressBar.setVisibility(View.INVISIBLE);
                 finish();
             }
-        },2500);
+        },1);
     }
 }

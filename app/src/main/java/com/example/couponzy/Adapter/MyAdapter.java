@@ -1,17 +1,20 @@
 package com.example.couponzy.Adapter;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,16 +70,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
     }
 
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.coupon_list_row, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.coupon_list_row2, parent, false);
         ExampleViewHolder evh = new ExampleViewHolder(v, Listener);
         return evh;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
+        DecimalFormat decim = new DecimalFormat("#,###.00");
         Coupon coupon = list.get(position);
         holder.title.setText(coupon.getTitle());
-        holder.price.setText(Double.toString(coupon.getPrice()));
-        holder.priceDiscount.setText(Double.toString(coupon.discountPrice));
+        holder.price.setText("₪ " + String.valueOf(decim.format(coupon.price)));
+        holder.priceDiscount.setText("₪ " + String.valueOf(decim.format(coupon.discountPrice)));
         holder.description.setText(coupon.getDescription());
         holder.expireDate.setText(coupon.getExpireDate());
         holder.distance.setText(coupon.getDistance());
@@ -89,7 +94,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         /*if (coupon.getProfileImg() != null){
             Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
         }*/
-
     }
 
     @Override
