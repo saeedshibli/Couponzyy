@@ -1,28 +1,24 @@
 package com.example.couponzy;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.login_Register.Login_form;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-
-
+import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -35,33 +31,30 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     TextView email,name;
+    ImageView userImage;
     MenuItem Logout;
-
+    MenuItem menuMyCoupons;
+    Boolean Typee;
+    int Content,nav;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                FireBaseAuth.instance.signOut();
-                startActivity(new Intent(getApplicationContext(), Login_form.class));
-            }
-        });*/
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_Logout)
-                .setOpenableLayout(drawer)
-                .build();
+        /*TODO:Checking what type of user is the logged in*/
+
+            setContentView(R.layout.activity_main);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            navigationView = findViewById(R.id.nav_view);
+
+            // Passing each menu ID as a set of Ids because each
+            // menu should be considered as top level destinations.
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_gallery, R.id.nav_home, R.id.nav_slideshow, R.id.nav_Logout)
+                    .setOpenableLayout(drawer)
+                    .build();
         /*Adding Custom Email and Username to HeaderPanel*/
         View headerView = navigationView.getHeaderView(0);
         String CurrentEmail = FireBaseAuth.instance.getCurrentUser().getEmail();
@@ -69,12 +62,22 @@ public class MainActivity extends AppCompatActivity {
         email=(TextView) headerView.findViewById(R.id.nav_head_main_email);
         email.setText(CurrentEmail);
         name=(TextView)headerView.findViewById(R.id.nav_header_main_name);
+        userImage=(ImageView)headerView.findViewById(R.id.imageView_post_userImg);
         FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String Firstname=snapshot.child("firstname").getValue().toString();
                 String Lastname=snapshot.child("lastname").getValue().toString();
                 name.setText("Welcome "+ Firstname+" "+Lastname);
+                userImage.setImageResource(R.drawable.ic_baseline_person_24);
+                if (snapshot.child("imgURL").getValue().toString() != null&&snapshot.child("imgURL").getValue().toString()!=""){
+                    Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                }
+                Boolean type=Boolean.parseBoolean(snapshot.child("isUser").getValue().toString());
+                if(type==true){
+                    NavigationMenuItemView navigationMenuItemView= findViewById(R.id.nav_home);
+                    navigationMenuItemView.setVisibility(headerView.GONE);
+                }
             }
 
             @Override
@@ -82,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        //TODO : ADD USER'S IMAGE
-        /**/
         /*Adding Logout */
         navigationView.getMenu().findItem(R.id.nav_Logout).setOnMenuItemClickListener(menuItem -> {
             FireBaseAuth.instance.signOut();
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //setFragment(GalleryFragment);
     }
 
     @Override
@@ -110,5 +112,10 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
+    public void setFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
 }

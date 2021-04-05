@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_gallery">
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.couponzy.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" >
+        android:name="com.example.couponzy.ui.MyCoupons.MyCouponsFragment"
+        android:label="My Coupons"
+        tools:layout="@layout/fragment_mycoupons" >
         <action
             android:id="@+id/action_nav_home_to_addCouponFragment"
             app:destination="@id/addCouponFragment" />
@@ -17,15 +17,15 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.couponzy.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.example.couponzy.ui.CouponsLine.CouponsLineFragment"
+        android:label="Coupons"
+        tools:layout="@layout/fragment_couponsline" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.couponzy.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.example.couponzy.ui.MyAccount.MyAccountFragment"
+        android:label="My Account"
+        tools:layout="@layout/fragment_myaccount" />
     <fragment
         android:id="@+id/addCouponFragment"
         android:name="com.example.couponzy.ui.Coupon.AddCouponFragment"
