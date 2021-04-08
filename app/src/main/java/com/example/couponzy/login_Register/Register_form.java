@@ -2,10 +2,13 @@ package com.example.couponzy.login_Register;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +26,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.example.couponzy.MainActivity;
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.Model.model;
@@ -66,7 +70,7 @@ public class Register_form extends AppCompatActivity {
         Register = findViewById(R.id.register_form_Register_btn);
         progressBar = findViewById(R.id.register_form_progressbar);
         imageView = (ImageView) findViewById(R.id.imageView_user_register);
-        imageButton = findViewById(R.id.userRigster_imageButton);
+        imageButton = (ImageButton) findViewById(R.id.userRigster_imageButton);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,12 +150,9 @@ public class Register_form extends AppCompatActivity {
                 }
                 Bitmap bitmap = null;
                 if (imageView.getDrawable() != null) {
-                    try {
                         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
                         bitmap = drawable.getBitmap();
                         flagimg = true;
-                    } catch (Exception e) {
-                    }
 
                 }
                 if (flagimg == false) {
@@ -172,24 +173,20 @@ public class Register_form extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
                                         User information;
-                                        if (finalLevel.equals("User")) {
-                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, "", false, false, true);
-                                        } else {
-                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, "", false, true, false);
-                                        }
                                         if (finalBitmap != null) {
-                                            model.instance.uploadImage(finalBitmap, id + email, new model.uploadImageListener() {
-                                                @Override
-                                                public void onComplete(String ImgUrl) {
-                                                    if (ImgUrl == null) {
-                                                        displayFailedError();
-                                                    }
-
-                                                    imgPath = ImgUrl;
-                                                }
-
-                                            });
+                                            GetImagePath(finalBitmap,id,email);
                                         }
+                                        try {
+                                            Thread.sleep(1500);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        if (finalLevel.equals("User")) {
+                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, false, false, true);
+                                        } else {
+                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, false, true, false);
+                                        }
+
 
                                         FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
                                                 .setValue(information)
@@ -230,6 +227,9 @@ public class Register_form extends AppCompatActivity {
     }
 
     private void editImage() {
+        ActivityCompat.requestPermissions(Register_form.this,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                1);
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(Register_form.this);
         builder.setTitle("Choose your profile picture");
@@ -250,7 +250,24 @@ public class Register_form extends AppCompatActivity {
         builder.show();
     }
 
+private String GetImagePath(Bitmap bitmap,String id,String email){
+    final String[] ret = new String[1];
+    model.instance.uploadImage(bitmap, id + email, new model.uploadImageListener() {
+        @Override
+        public void onComplete(String ImgUrl) {
+            if (ImgUrl == null) {
+                displayFailedError();
+            }
+
+            imgPath = ImgUrl;
+            ret[0] =ImgUrl;
+        }
+
+    });
+return ret[0];
+}
     //static final int REQUEST_IMAGE_CAPTURE = 1;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -283,7 +300,23 @@ public class Register_form extends AppCompatActivity {
             }
         }
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+            {
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, do something you want
+                } else {
+                    // permission denied
+                    Toast.makeText(Register_form.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
     private void displayFailedError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Register_form.this);
         builder.setTitle("Operation Failed");

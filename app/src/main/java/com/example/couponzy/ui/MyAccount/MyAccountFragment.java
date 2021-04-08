@@ -147,6 +147,27 @@ public class MyAccountFragment extends Fragment {
                 FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("dateOfBirth").setValue(birthday);
                 FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("gender").setValue(gender);
                 FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("phone").setValue(phone);
+            Bitmap bitmap = null;
+            if (flagimg == true) {
+                //imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                bitmap = drawable.getBitmap();
+
+                model.instance.uploadImage(bitmap, FirebaseAuth.getInstance().getUid(), new model.uploadImageListener() {
+                    @Override
+                    public void onComplete(String ImgUrl) {
+                        if (ImgUrl == null) {
+                            displayFailedError();
+                        }
+                        if(ImgUrl!=null)
+                            FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("imgURL").setValue(ImgUrl);
+                        //user.setImgURL(ImgUrl);
+                        Navigation.findNavController(view).popBackStack();
+                    }
+
+                });
+            }
+
 
                 /*DatabaseReference ref = FirebaseDatabase.getInstance().getReference("User").child(myAccountViewModel.getCurrentUserId().getValue());
                 Map<String, Object> values = new HashMap<>();
@@ -188,7 +209,7 @@ public class MyAccountFragment extends Fragment {
             }
 */
                 //returing back to home
-                Navigation.findNavController(view).popBackStack();
+
             }
         });
 
