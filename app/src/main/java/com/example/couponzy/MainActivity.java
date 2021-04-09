@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView.getMenu().findItem(R.id.nav_Logout).setOnMenuItemClickListener(menuItem -> {
             FireBaseAuth.instance.signOut();
             startActivity(new Intent(getApplicationContext(), Login_form.class));
+            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
             return true;
         });
 
