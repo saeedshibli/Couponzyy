@@ -19,7 +19,11 @@
         android:id="@+id/nav_gallery"
         android:name="com.example.couponzy.ui.CouponsLine.CouponsLineFragment"
         android:label="Coupons"
-        tools:layout="@layout/fragment_couponsline" />
+        tools:layout="@layout/fragment_couponsline" >
+        <action
+            android:id="@+id/action_nav_gallery_to_couponDetailsFragment"
+            app:destination="@id/couponDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
@@ -31,4 +35,13 @@
         android:name="com.example.couponzy.ui.Coupon.AddCouponFragment"
         android:label="Add new Coupon"
         tools:layout="@layout/fragment_add_coupon" />
+    <fragment
+        android:id="@+id/couponDetailsFragment"
+        android:name="com.example.couponzy.ui.Coupon.CouponDetailsFragment"
+        android:label="fragment_coupon_details"
+        tools:layout="@layout/fragment_coupon_details" >
+        <argument
+            android:name="couponId"
+            app:argType="string" />
+    </fragment>
 </navigation>

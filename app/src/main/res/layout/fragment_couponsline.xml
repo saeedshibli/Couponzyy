@@ -18,7 +18,9 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/couponslist_swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="76dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_recycler_v_gallery"

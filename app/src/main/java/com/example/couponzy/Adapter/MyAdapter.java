@@ -21,21 +21,21 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder> {
     public List<Coupon> list = new ArrayList<>();
     LayoutInflater inflater;
-    private OnItemClickListener Listener;
+    private MyOnItemClickListener listener;
 
-    public interface OnItemClickListener {
+    public interface MyOnItemClickListener {
         void onItemClick(int position);
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        Listener = listener;
+    public void setOnItemClickListener(MyOnItemClickListener listener) {
+        this.listener = listener;
     }
 
     public static class ExampleViewHolder extends RecyclerView.ViewHolder {
         public TextView title, price, priceDiscount, description, expireDate, distance, couponCode;
         public ImageView userImage, postImage;
 
-        public ExampleViewHolder(View itemView, OnItemClickListener listener) {
+        public ExampleViewHolder(View itemView, MyOnItemClickListener listener) {
             super(itemView);
             title = itemView.findViewById(R.id.textView_main_title);
             price = itemView.findViewById(R.id.textView_main_price);
@@ -71,7 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
 
     public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.coupon_list_row2, parent, false);
-        ExampleViewHolder evh = new ExampleViewHolder(v, Listener);
+        ExampleViewHolder evh = new ExampleViewHolder(v, listener);
         return evh;
     }
 
@@ -91,9 +91,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         if (coupon.getPostImg() != null) {
             Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(holder.postImage);
         }
-        if (coupon.getProfileImg() != null){
-            Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
-        }
+//        if (coupon.getProfileImg() != null){
+//            Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
+//        }
     }
 
     @Override

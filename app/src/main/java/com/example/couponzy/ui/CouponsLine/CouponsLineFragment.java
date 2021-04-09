@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,6 +31,7 @@ public class CouponsLineFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     SwipeRefreshLayout sref;
     ProgressBar progressBar;
+    Button details;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,10 +56,18 @@ public class CouponsLineFragment extends Fragment {
         });
         progressBar.setVisibility(View.VISIBLE);
         couponsLineViewModel.getCoupons().observe(getViewLifecycleOwner(), new Observer<List<Coupon>>() {
-
             @Override
             public void onChanged(List<Coupon> coupons) {
                 mAdapter = new MyAdapter(couponsLineViewModel.getCoupons().getValue());
+                mAdapter.setOnItemClickListener(new MyAdapter.MyOnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        String id = couponsLineViewModel.getCoupons().getValue().get(position).getid();
+                        CouponsLineFragmentDirections.ActionNavGalleryToCouponDetailsFragment direc = CouponsLineFragmentDirections.actionNavGalleryToCouponDetailsFragment(id);
+                        Navigation.findNavController(view).navigate(direc);
+                    }
+                });
+
                 postslist.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
