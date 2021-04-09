@@ -2,17 +2,16 @@ package com.example.couponzy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.couponzy.Model.FireBaseAuth;
-import com.example.couponzy.R;
 import com.example.couponzy.login_Register.Login_form;
 
 public class SplashActivity extends AppCompatActivity {
@@ -42,19 +41,23 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startApp() {
-        new Handler().postDelayed(new Runnable() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void run() {
                 if(FireBaseAuth.instance.getCurrentUser()==null){
                     startActivity(new Intent(SplashActivity.this, Login_form.class));
+                    overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                     finish();
                 }
                 else{
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
                 progressBar.setVisibility(View.INVISIBLE);
+                overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 finish();
             }
-        },1);
+        });
     }
 }
