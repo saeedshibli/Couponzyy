@@ -41,6 +41,7 @@ public class Login_form extends AppCompatActivity {
              @Override
              public void onClick(View view) {
                  startActivity(new Intent(getApplicationContext(), Register_form.class));
+                 overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
              }
          });
             Login.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +66,7 @@ public class Login_form extends AppCompatActivity {
                                         if (task.isSuccessful()) {
                                             progressBar.setVisibility(View.GONE);
                                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                                         } else {
                                             progressBar.setVisibility(View.GONE);
                                             Toast.makeText(Login_form.this, "Login Failed or User was not Found!", Toast.LENGTH_SHORT).show();

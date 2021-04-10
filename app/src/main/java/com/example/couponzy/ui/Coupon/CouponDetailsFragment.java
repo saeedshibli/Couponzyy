@@ -42,20 +42,21 @@ public class CouponDetailsFragment extends AddCouponFragment {
         final String couponId = CouponDetailsFragmentArgs.fromBundle(getArguments()).getCouponId();
         Log.d("couponId:",couponId);
 
-
+        imageView = view.findViewById(R.id.imageView_post_image);
 
         couponDetailsViewModel.getCoupon(couponId, new model.GetCouponListener() {
             @Override
             public void onComplete(Coupon coupon) {
-                name.setText(coupon.getUserName());
+                name.setText(coupon.getTitle());
                 description.setText(coupon.getDescription());
                 price.setText(String.valueOf(coupon.getPrice()));
                 priceAfterDiscount.setText(String.valueOf(coupon.getDiscountPrice()));
                 datepicker.setText(coupon.getExpireDate());
-//                if (coupon.getPostImg() != null) {
-//                    Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(imageView);
-//
-//                }
+
+                if (coupon.getPostImg() != null) {
+                    Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(imageView);
+
+                }
         }
         });
 

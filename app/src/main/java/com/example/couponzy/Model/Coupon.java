@@ -87,8 +87,8 @@ public class Coupon {
         description = (String) map.get("description");
         title = (String) map.get("title");
         distance = (String) map.get("distance");
-        price = Double.parseDouble( map.get("price").toString());
-        discountPrice = Double.parseDouble( map.get("discountPrice").toString());
+        price = Double.parseDouble(map.get("price").toString());
+        discountPrice = Double.parseDouble(map.get("discountPrice").toString());
         lastUpdated = (Long) map.get("lastUpdated");
     }
 

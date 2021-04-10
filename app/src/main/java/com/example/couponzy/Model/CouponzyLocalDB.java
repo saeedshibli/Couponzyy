@@ -10,8 +10,6 @@ import com.example.couponzy.MyApplication;
 
 abstract class CouponzyLocalDbRepository extends RoomDatabase {
     public abstract CouponDao couponDao();
-
-    public abstract UserDao userDao();
 }
 
 public class CouponzyLocalDB {
