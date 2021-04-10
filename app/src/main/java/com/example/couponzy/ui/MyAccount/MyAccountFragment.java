@@ -30,6 +30,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+
+import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
 import com.example.couponzy.Model.User;
 import com.example.couponzy.Model.model;
@@ -256,6 +258,7 @@ public class MyAccountFragment extends Fragment {
                 Toast.makeText(getActivity(), "Please Enter Gender", Toast.LENGTH_SHORT).show();
                 return;
             }
+            String currentUserId= FireBaseAuth.instance.getCurrentUser().getUid();
             FireDataBase.instance.getReference("User").child(currentUserId).child("email").setValue(email);
             FireDataBase.instance.getReference("User").child(currentUserId).child("firstname").setValue(firstname);
             FireDataBase.instance.getReference("User").child(currentUserId).child("lastname").setValue(lastname);

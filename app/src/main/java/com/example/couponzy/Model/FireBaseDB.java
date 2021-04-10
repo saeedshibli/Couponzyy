@@ -67,7 +67,7 @@ public static Date GetCurrentDateFromString(String date)  {
             public void onDataChange(@NonNull DataSnapshot dataSnapshotg) {
                 List<Coupon> data = new ArrayList<Coupon>();
                 for (DataSnapshot snapshot : dataSnapshotg.getChildren()) {
-                    if (!snapshot.getValue(Coupon.class).userId.equals(FireBaseAuth.instance.getCurrentUser().getUid&&
+                    if (!snapshot.getValue(Coupon.class).userId.equals(FireBaseAuth.instance.getCurrentUser().getUid())&&
                             CurrentDateTimeExample.GetCurrentDateFromString(snapshot.getValue(Coupon.class).expireDate).after(CurrentDateTimeExample.GetCurrentDate())) {
                         Coupon post = new Coupon();
                         post.fromMap((Map<String, Object>) snapshot.getValue());

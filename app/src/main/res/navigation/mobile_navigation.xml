@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.couponzy.ui.MyCoupons.MyCouponsFragment"
-        android:label="My Coupons"
-        tools:layout="@layout/fragment_mycoupons" >
+        android:label="קופונים שלי"
+        tools:layout="@layout/fragment_mycoupons">
         <action
             android:id="@+id/action_nav_home_to_addCouponFragment"
             app:destination="@id/addCouponFragment" />
@@ -18,17 +18,17 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.couponzy.ui.CouponsLine.CouponsLineFragment"
-        android:label="Coupons"
+        android:label="קופונים"
         tools:layout="@layout/fragment_couponsline" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.couponzy.ui.MyAccount.MyAccountFragment"
-        android:label="My Account"
+        android:label="חשבון שלי"
         tools:layout="@layout/fragment_myaccount" />
     <fragment
         android:id="@+id/addCouponFragment"
         android:name="com.example.couponzy.ui.Coupon.AddCouponFragment"
-        android:label="Add new Coupon"
+        android:label="הוספת קופון"
         tools:layout="@layout/fragment_add_coupon" />
 </navigation>
