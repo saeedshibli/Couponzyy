@@ -100,7 +100,7 @@
             android:id="@+id/textView_main_valid_till"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="5dp"
             android:text="expireDate"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/textView_main_valid_till2"
@@ -118,7 +118,7 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detailsBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_main_distance" />
 
         <TextView
             android:id="@+id/textView_main_distance"
@@ -146,22 +146,12 @@
             android:id="@+id/textView_main_Coupon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="5dp"
             android:layout_marginBottom="8dp"
             android:text="קוד קופון |"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView_main_coupon_code" />
 
-        <Button
-            android:id="@+id/detailsBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="39dp"
-            android:background="#FFFFFF"
-            android:text="לפרטים >"
-            android:textColor="#5096C5"
-            app:backgroundTint="#00673AB7"
-            app:layout_constraintEnd_toEndOf="@+id/textView_main_description"
-            app:layout_constraintTop_toBottomOf="@+id/textView_main_price_afterDiscount" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

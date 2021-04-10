@@ -53,10 +53,10 @@ public class CouponDetailsFragment extends AddCouponFragment {
                 priceAfterDiscount.setText(String.valueOf(coupon.getDiscountPrice()));
                 datepicker.setText(coupon.getExpireDate());
 
-                if (coupon.getPostImg() != null) {
-                    Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(imageView);
-
-                }
+//                if (coupon.getPostImg() != null) {
+//                    Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(imageView);
+//
+//                }
         }
         });
 
