@@ -39,6 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -135,7 +137,6 @@ public class AddCouponFragment extends Fragment {
         final int maxu = 999999999;
         final int random = new Random().nextInt((maxc - minc) + 1) + minc;
         final int random2 = new Random().nextInt((maxu - minu) + 1) + minu;
-
         post.couponCode =Integer.toString(random);
         post.id=Integer.toString(random2);
 
@@ -261,4 +262,5 @@ public class AddCouponFragment extends Fragment {
         });
         builder.show();
     }
+
 }
