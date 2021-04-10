@@ -40,6 +40,34 @@ public class model {
         void onComplete();
     }
 
+////////////////////////////////////////////////////////////////////////////////////////
+
+    Coupon coupon;
+
+    public void getCoupon(String id, GetCouponListener listener) {
+       // if (coupon == null) {
+           // String userId = FireBaseAuth.instance.getCurrentUser().getUid();
+            Executor myExecutor = Executors.newSingleThreadExecutor();
+            myExecutor.execute(() -> {
+                coupon = CouponzyLocalDB.db.couponDao().getCoupon(id);
+                listener.onComplete(coupon);
+            });
+
+           // refreshCoupons(null);
+       // }
+    }
+
+    public interface GetCouponListener {
+        void onComplete(Coupon coupon);
+    }
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
+
+
     public void refreshCoupons(final GetCouponsListener listener) {
         //1. get local last update date
         final SharedPreferences sp = MyApplication.context.getSharedPreferences("TAG", Context.MODE_PRIVATE);
@@ -158,11 +186,11 @@ public class model {
         });
     }
 
-    public interface getPostByIdListener {
+    public interface GetPostByIdListener {
         void onComplete(Coupon Post);
     }
 
-    public void getPostsById(String id, getPostByIdListener listener) {
+    public void getPostsById(String id, GetPostByIdListener listener) {
         fireBaseDB.getPostById(id, listener);
 
     }

@@ -18,6 +18,9 @@ public interface CouponDao {
     @Query("select * from Coupon WHERE userId!=:userId")
     LiveData<List<Coupon>> getCoupons(String userId);
 
+    @Query("select * from Coupon WHERE id=:id")
+    Coupon getCoupon(String id);
+
     @Query("select * from Coupon WHERE userId=:userId")
     LiveData<List<Coupon>> getMyCoupons(String userId);
 

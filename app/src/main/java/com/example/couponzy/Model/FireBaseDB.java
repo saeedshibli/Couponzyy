@@ -154,7 +154,7 @@ public static Date GetCurrentDateFromString(String date)  {
         addPost(student, listener);
     }
 
-    public void getPostById(String id, model.getPostByIdListener listener) {
+    public void getPostById(String id, model.GetPostByIdListener listener) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Posts").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
