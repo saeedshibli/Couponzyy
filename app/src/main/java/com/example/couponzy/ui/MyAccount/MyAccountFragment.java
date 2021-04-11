@@ -216,31 +216,31 @@ public class MyAccountFragment extends Fragment {
         });
 
         myAccountViewModel.getActivetUser().observe(getViewLifecycleOwner(), new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
+                    @Override
+                    public void onChanged(User user) {
 
-                txtfirstname.setText(myAccountViewModel.getActivetUser().getValue().firstname);
-                txtlastname.setText(myAccountViewModel.getActivetUser().getValue().lastname);
-                txtphone.setText(myAccountViewModel.getActivetUser().getValue().phone);
-                txtemail.setText(myAccountViewModel.getActivetUser().getValue().email);
-                if (myAccountViewModel.getActivetUser().getValue().gender.equals("Male")) {
-                    male.setChecked(true);
-                } else {
-                    female.setChecked(true);
-                }
-                txtid.setText(myAccountViewModel.getActivetUser().getValue().id);
-                txtbirthday.setText(myAccountViewModel.getActivetUser().getValue().dateOfBirth);
+                        txtfirstname.setText(myAccountViewModel.getActivetUser().getValue().firstname);
+                        txtlastname.setText(myAccountViewModel.getActivetUser().getValue().lastname);
+                        txtphone.setText(myAccountViewModel.getActivetUser().getValue().phone);
+                        txtemail.setText(myAccountViewModel.getActivetUser().getValue().email);
+                        if (myAccountViewModel.getActivetUser().getValue().gender.equals("Male")) {
+                            male.setChecked(true);
+                        } else {
+                            female.setChecked(true);
+                        }
+                        txtid.setText(myAccountViewModel.getActivetUser().getValue().id);
+                        txtbirthday.setText(myAccountViewModel.getActivetUser().getValue().dateOfBirth);
 
-                imageView.setImageResource(R.drawable.ic_baseline_person_24);
-                if (myAccountViewModel.getActivetUser().getValue().getImgURL() != null) {
-                    Picasso.get()
-                            .load(user.getImgURL())
-                            .fit()
-                            .centerInside()
-                            .into(imageView);
-                }
-            }
-
+                        imageView.setImageResource(R.drawable.ic_baseline_person_24);
+                        if (myAccountViewModel.getActivetUser().getValue().getImgURL() != null) {
+                            Picasso.get()
+                                    .load(user.getImgURL())
+                                    .fit()
+                                    .centerInside()
+                                    .into(imageView);
+                        }
+                    }
+                });
     cancel.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -306,10 +306,8 @@ public class MyAccountFragment extends Fragment {
             FireDataBase.instance.getReference("User").child(currentUserId).child("dateOfBirth").setValue(birthday);
             FireDataBase.instance.getReference("User").child(currentUserId).child("gender").setValue(gender);
             FireDataBase.instance.getReference("User").child(currentUserId).child("phone").setValue(Phone);
-            //TODO: add image editing
-           /* Bitmap bitmap = null;
+            Bitmap bitmap = null;
             if (flagimg == true) {
-                imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
                 bitmap = drawable.getBitmap();
 
@@ -320,12 +318,16 @@ public class MyAccountFragment extends Fragment {
                             displayFailedError();
                         }
                         if(ImgUrl!=null)
-                        user.setImgURL(ImgUrl);
+                            FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("imgURL").setValue(ImgUrl);
+                        //user.setImgURL(ImgUrl);
+                        Navigation.findNavController(view).popBackStack();
                     }
 
                 });
             }
-*/
+
+
+
             //returing back to home
             Navigation.findNavController(view)
                     .popBackStack(R.id.nav_home, false);
