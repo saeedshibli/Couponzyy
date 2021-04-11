@@ -3,32 +3,57 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_gallery">
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.couponzy.ui.home.HomeFragment"
-        android:label="My Coupons"
-        tools:layout="@layout/fragment_home" >
+        android:name="com.example.couponzy.ui.MyCoupons.MyCouponsFragment"
+        android:label="קופונים שלי"
+        tools:layout="@layout/fragment_mycoupons">
         <action
             android:id="@+id/action_nav_home_to_addCouponFragment"
             app:destination="@id/addCouponFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_editCouponFragment"
+            app:destination="@id/editCouponFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.couponzy.ui.gallery.GalleryFragment"
-        android:label="Coupons"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.example.couponzy.ui.CouponsLine.CouponsLineFragment"
+        android:label="קופונים"
+        tools:layout="@layout/fragment_couponsline">
+        <action
+            android:id="@+id/action_nav_gallery_to_couponDetailsFragment"
+            app:destination="@id/couponDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.couponzy.ui.slideshow.SlideshowFragment"
-        android:label="My Account"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.example.couponzy.ui.MyAccount.MyAccountFragment"
+        android:label="חשבון שלי"
+        tools:layout="@layout/fragment_myaccount" />
     <fragment
         android:id="@+id/addCouponFragment"
         android:name="com.example.couponzy.ui.Coupon.AddCouponFragment"
-        android:label="Add new Coupon"
+        android:label="הוספת קופון חדש"
         tools:layout="@layout/fragment_add_coupon" />
+    <fragment
+        android:id="@+id/couponDetailsFragment"
+        android:name="com.example.couponzy.ui.Coupon.CouponDetailsFragment"
+        android:label="הצגת הקופון"
+        tools:layout="@layout/fragment_coupon_details">
+        <argument
+            android:name="couponId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCouponFragment"
+        android:name="com.example.couponzy.ui.Coupon.EditCouponFragment"
+        android:label="עריכת קןפון"
+        tools:layout="@layout/fragment_edit_coupon">
+        <argument
+            android:name="couponId"
+            app:argType="string" />
+    </fragment>
 </navigation>

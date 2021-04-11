@@ -3,7 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp"
+    app:cardMaxElevation="10dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true">
+
+    <TextView
+        android:id="@+id/textView_main_valid_till5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="ישן חדש: "
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_main_price"
+        app:layout_constraintStart_toStartOf="@+id/textView_main_valid_till4"
+        app:layout_constraintTop_toTopOf="@+id/textView_main_price" />
+
+    <TextView
+        android:id="@+id/textView_main_valid_till4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="מחיר חדש: "
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_main_price_afterDiscount"
+        app:layout_constraintStart_toEndOf="@+id/textView_main_price_afterDiscount"
+        app:layout_constraintTop_toTopOf="@+id/textView_main_price_afterDiscount"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView_main_valid_till3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="תיאור פריט: "
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_main_description"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_post_image"
+        app:layout_constraintTop_toTopOf="@+id/textView_main_description" />
 
     <ImageView
         android:id="@+id/imageView_post_userImg"
@@ -11,11 +52,8 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_person_24"
         tools:ignore="VectorDrawableCompat" />
 
@@ -24,11 +62,9 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
     <TextView
@@ -43,135 +79,91 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_main_price"
+        android:id="@+id/textView_main_price_afterDiscount"
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="24dp"
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_post_userImg" />
 
     <TextView
-        android:id="@+id/textView_main_price_afterDiscount"
+        android:id="@+id/textView_main_price"
         android:layout_width="0dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_price" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_price_afterDiscount" />
 
     <TextView
         android:id="@+id/textView_main_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="44dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_post_image"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_title"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toStartOf="@+id/textView_main_valid_till3"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_title" />
 
     <TextView
         android:id="@+id/textView_main_valid_till"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="104dp"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_post_image"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_title"
-        app:layout_constraintVertical_bias="0.403" />
+        app:layout_constraintEnd_toStartOf="@+id/textView_main_valid_till2"
+        app:layout_constraintTop_toBottomOf="@+id/textView_main_price" />
 
     <TextView
         android:id="@+id/textView_main_valid_till2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="בתוקף עד"
+        android:layout_marginEnd="120dp"
+        android:text="בתוקף עד:"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_post_image"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView_main_valid_till"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_title"
-        app:layout_constraintVertical_bias="0.404" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView_main_valid_till"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView_main_valid_till" />
 
     <TextView
         android:id="@+id/textView_main_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/button" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/textView_main_coupon_code"
-        android:layout_width="96dp"
-        android:layout_height="34dp"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="248dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:text="TextView"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView_post_image"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_price_afterDiscount"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView_main_Coupon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginBottom="32dp"
-        android:text="קוד קןפון"
+        android:layout_marginBottom="8dp"
+        android:text="קוד קופון:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_main_coupon_code"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_valid_till"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="89dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="64dp"
-        android:background="#FFFFFF"
-        android:text="לפרטים >"
-        android:textColor="#5096C5"
-        app:backgroundTint="#00673AB7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.581"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_main_valid_till"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/EmptyLine"
-        android:layout_width="0dp"
-        android:layout_height="10dp"
-        android:background="#5096C5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/textView_main_coupon_code" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
