@@ -16,10 +16,12 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder> {
     public List<Coupon> list = new ArrayList<>();
+    public HashMap<String,String>CheckImg=new HashMap<String, String>();
     LayoutInflater inflater;
     private MyOnItemClickListener listener;
 
@@ -91,11 +93,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
         if (coupon.getPostImg() != null) {
             Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(holder.postImage);
         }
-//        if (coupon.getProfileImg() != null){
-//            Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
-//        }
-    }
+        //TODO:Check if this is needed , this is used for the bug in recycler view were pictures are changed !!
+        if(CheckImg.get(coupon.getid())==null) {
+            CheckImg.put(coupon.getid(), coupon.getProfileImg());
+        }
+            Picasso.get().load(CheckImg.get(coupon.getid())).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
 
+//            if (coupon.getProfileImg() != null ) {
+//                Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
+//            }
+
+    }
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
     @Override
     public int getItemCount() {
 

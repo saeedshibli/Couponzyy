@@ -1,10 +1,13 @@
 package com.example.couponzy.ui.Coupon;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -42,7 +45,7 @@ public class CouponDetailsFragment extends AddCouponFragment {
         final String couponId = CouponDetailsFragmentArgs.fromBundle(getArguments()).getCouponId();
         Log.d("couponId:",couponId);
 
-        imageView = view.findViewById(R.id.imageView_post_image);
+        imageView = (ImageView) view.findViewById(R.id.imageView_add_coupon);
 
         couponDetailsViewModel.getCoupon(couponId, new model.GetCouponListener() {
             @Override
@@ -52,11 +55,12 @@ public class CouponDetailsFragment extends AddCouponFragment {
                 price.setText(String.valueOf(coupon.getPrice()));
                 priceAfterDiscount.setText(String.valueOf(coupon.getDiscountPrice()));
                 datepicker.setText(coupon.getExpireDate());
-
-//                if (coupon.getPostImg() != null) {
-//                    Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(imageView);
-//
-//                }
+                imageView.setImageResource(R.drawable.ic_launcher_background);
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (coupon.getPostImg() != null) {
+                        Picasso.get().load(coupon.getPostImg()).placeholder(R.drawable.ic_launcher_background).into(imageView);
+                    }
+                });
         }
         });
 

@@ -320,7 +320,7 @@ public class MyAccountFragment extends Fragment {
                         if(ImgUrl!=null)
                             FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("imgURL").setValue(ImgUrl);
                         //user.setImgURL(ImgUrl);
-                        Navigation.findNavController(view).popBackStack();
+                        //Navigation.findNavController(view).popBackStack();
                     }
 
                 });
@@ -330,7 +330,7 @@ public class MyAccountFragment extends Fragment {
 
             //returing back to home
             Navigation.findNavController(view)
-                    .popBackStack(R.id.nav_home, false);
+                    .popBackStack(R.id.nav_gallery, false);
         }
     });
 
