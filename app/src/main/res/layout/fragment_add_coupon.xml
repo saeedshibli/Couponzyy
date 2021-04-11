@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView_add_coupon"
-        android:layout_width="200px"
-        android:layout_height="200px"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="84dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="36dp"
-        android:text="name"
+        android:text="שם"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_add_coupon" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:text="Description"
+        android:text="תיאור"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_edit_coupon_name" />
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:text="Price"
+        android:text="מחיר"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_new_coupon_description" />
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:text="Price After Discount"
+        android:text="מחיר סופי (אחרי הנחה)"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_new_coupon_price" />
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="40dp"
-        android:text="Expire Date"
+        android:text="תאריך תפוגה"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_new_coupon_pricediscount" />
@@ -78,6 +78,7 @@
         android:layout_marginStart="132dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_edit_coupon_name"
         app:layout_constraintStart_toEndOf="@+id/textView_edit_coupon_name"
@@ -89,6 +90,7 @@
         android:layout_height="47dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_new_coupon_description"
         app:layout_constraintEnd_toEndOf="@+id/editbox_new_coupon_name"
@@ -99,13 +101,15 @@
         android:id="@+id/editbox_new_coupon_pricediscount"
         android:layout_width="117dp"
         android:layout_height="47dp"
+        android:layout_marginStart="48dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_new_coupon_pricediscount"
         app:layout_constraintStart_toStartOf="@+id/editbox_new_coupon_price"
         app:layout_constraintTop_toTopOf="@+id/textView_new_coupon_pricediscount"
-        app:layout_constraintVertical_bias="0.565" />
+        app:layout_constraintVertical_bias="0.478" />
 
     <EditText
         android:id="@+id/editbox_new_coupon_price"
@@ -113,6 +117,7 @@
         android:layout_height="47dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView_new_coupon_price"
         app:layout_constraintStart_toStartOf="@+id/editbox_new_coupon_description"
@@ -159,6 +164,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="dd/mm/yyyy"
+        android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/textView_new_coupon_date"
         app:layout_constraintStart_toStartOf="@+id/editbox_new_coupon_pricediscount"
         app:layout_constraintTop_toTopOf="@+id/textView_new_coupon_date" />
