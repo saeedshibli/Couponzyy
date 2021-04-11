@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_nav_home_to_addCouponFragment"
             app:destination="@id/addCouponFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_editCouponFragment"
+            app:destination="@id/editCouponFragment" />
     </fragment>
 
     <fragment
@@ -40,6 +43,15 @@
         android:name="com.example.couponzy.ui.Coupon.CouponDetailsFragment"
         android:label="fragment_coupon_details"
         tools:layout="@layout/fragment_coupon_details" >
+        <argument
+            android:name="couponId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/editCouponFragment"
+        android:name="com.example.couponzy.ui.Coupon.EditCouponFragment"
+        android:label="fragment_edit_coupon"
+        tools:layout="@layout/fragment_edit_coupon" >
         <argument
             android:name="couponId"
             app:argType="string" />

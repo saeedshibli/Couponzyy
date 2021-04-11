@@ -20,6 +20,7 @@ import com.example.couponzy.Adapter.MyAdapter;
 import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
+import com.example.couponzy.ui.CouponsLine.CouponsLineFragmentDirections;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
@@ -69,6 +70,14 @@ public class MyCouponsFragment extends Fragment {
             @Override
             public void onChanged(List<Coupon> coupons) {
                 mAdapter = new MyAdapter(myCouponsViewModel.getMyCoupons().getValue());
+                mAdapter.setOnItemClickListener(new MyAdapter.MyOnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        String id = myCouponsViewModel.getMyCoupons().getValue().get(position).getid();
+                        MyCouponsFragmentDirections.ActionNavHomeToEditCouponFragment direc = MyCouponsFragmentDirections.actionNavHomeToEditCouponFragment(id);
+                        Navigation.findNavController(view).navigate(direc);
+                    }
+                });
                 postslist.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
