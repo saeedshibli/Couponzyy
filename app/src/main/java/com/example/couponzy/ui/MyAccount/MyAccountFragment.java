@@ -306,10 +306,8 @@ public class MyAccountFragment extends Fragment {
             FireDataBase.instance.getReference("User").child(currentUserId).child("dateOfBirth").setValue(birthday);
             FireDataBase.instance.getReference("User").child(currentUserId).child("gender").setValue(gender);
             FireDataBase.instance.getReference("User").child(currentUserId).child("phone").setValue(Phone);
-            //TODO: add image editing
-           /* Bitmap bitmap = null;
+            Bitmap bitmap = null;
             if (flagimg == true) {
-                imageView=(ImageView)view.findViewById(R.id.imageView_user_edit);
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
                 bitmap = drawable.getBitmap();
 
@@ -320,12 +318,16 @@ public class MyAccountFragment extends Fragment {
                             displayFailedError();
                         }
                         if(ImgUrl!=null)
-                        user.setImgURL(ImgUrl);
+                            FireDataBase.instance.getReference("User").child(myAccountViewModel.getCurrentUserId().getValue()).child("imgURL").setValue(ImgUrl);
+                        //user.setImgURL(ImgUrl);
+                        Navigation.findNavController(view).popBackStack();
                     }
 
                 });
             }
-*/
+
+
+
             //returing back to home
             Navigation.findNavController(view)
                     .popBackStack(R.id.nav_home, false);
