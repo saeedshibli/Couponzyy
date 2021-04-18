@@ -3,6 +3,7 @@ package com.example.couponzy.Model;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -63,6 +64,7 @@ public class model {
                 sp.edit().putLong("lastUpdated", lastU).commit();
                 //5. return the updates data to the listeners
                 if (listener != null) {
+                    Log.d("TAG", "listener");
                     listener.onComplete();
                 }
             }
@@ -122,6 +124,54 @@ public class model {
     }
 
     public interface getUserByIdListener extends Listener<User> {
+    }
+
+    LiveData<List<User>> SellersList;
+
+    public LiveData<List<User>> getSellers() {
+        if (SellersList == null) {
+            SellersList = CouponzyLocalDB.db.userDao().getAllSellers();
+            getAllSellers(null);
+        }
+        return SellersList;
+    }
+
+    public interface getSellersListener{
+        void onComplete();
+
+    }
+
+    public void getAllSellers(final getSellersListener listener){
+        //1. get local last update date
+        final SharedPreferences sp = MyApplication.context.getSharedPreferences("USER", Context.MODE_PRIVATE);
+        long lastUpdated = sp.getLong("lastUpdated", 0);
+        Log.d("TAG", "lastUpdated = " + lastUpdated);
+        //2. get all updated record from firebase from the last update date
+        fireBaseDB.getSellers(lastUpdated, new FireBaseDB.getSellersListener(){
+            @Override
+            public void onComplete(List<User> result) {
+                for (User user:result) {
+                    Log.d("TAG", "ResultUserId: " + user.id);
+                }
+                //3. insert the new updates to the local db
+                long lastU = 0;
+                for (User u : result) {
+                    Executor myExecutor = Executors.newSingleThreadExecutor();
+                    myExecutor.execute(() -> {
+                        CouponzyLocalDB.db.userDao().insertAll(u);
+                    });
+                    if (u.getLastUpdated() > lastU) {
+                        lastU = u.getLastUpdated();
+                    }
+                }
+                //4. update the local last update date
+                sp.edit().putLong("lastUpdated", lastU).apply();
+                //5. return the updates data to the listeners
+                if (listener != null) {
+                    listener.onComplete();
+                }
+            }
+        });
     }
 
     MutableLiveData<User> currentUser = new MutableLiveData<User>();

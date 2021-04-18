@@ -29,6 +29,7 @@ import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
 import com.example.couponzy.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -192,10 +193,10 @@ public class Register_form extends AppCompatActivity {
                                         }
 
                                         FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
-                                                .setValue(information)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                .setValue(information.toMap())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                    public void onSuccess(Void aVoid) {
                                                         while (imgPath == null) ;
                                                         FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
                                                                 .child("imgURL")
@@ -211,7 +212,7 @@ public class Register_form extends AppCompatActivity {
 
                                                                 });
                                                     }
-                                                });
+                                                } );
 
 
                                     } else {

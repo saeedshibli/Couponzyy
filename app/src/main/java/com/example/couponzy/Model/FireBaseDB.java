@@ -61,6 +61,7 @@ public static Date GetCurrentDateFromString(String date)  {
     }
 
     public void getCoupons(Long lastUpdated, GetCouponsListener listener) {
+        Log.d("TAG", "lastUpdated: " + lastUpdated);
         Query recentPostsQuery = FireDataBase.instance.getReference("Posts").orderByChild("lastUpdated").startAt(lastUpdated);
         recentPostsQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,6 +194,40 @@ public static Date GetCurrentDateFromString(String date)  {
                     Boolean type = task.getResult().getValue(User.class).isUser;
                     listener.onComplete(type);
                 }
+            }
+        });
+    }
+
+        interface getSellersListener {
+            void onComplete(List<User> list);
+        }
+
+    public void getSellers(Long lastUpdated, getSellersListener listener){
+        Query recentPostsQuery = FireDataBase.instance.getReference("User").orderByChild("lastUpdated").startAt(lastUpdated);
+        Log.d("TAG", "lastUpdated getSellers = " + lastUpdated);
+        Log.d("TAG", "recentPostsQuery = " + recentPostsQuery);
+        recentPostsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshotg) {
+                List<User> data = new ArrayList<User>();
+                Log.d("TAG", "test = ");
+                for (DataSnapshot snapshot : dataSnapshotg.getChildren()) {
+                    if (snapshot.getValue(User.class).isShop) {
+                        User user = new User();
+                        user.fromMap((Map<String, Object>) snapshot.getValue());
+                        data.add(user);
+                        Log.d("TAG", "getCoupons: " + user.id);
+                    }
+                }
+                for (User user:data) {
+                    Log.d("TAG", "userId: " + user.id);
+                }
+                listener.onComplete(data);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "loadUser:onCancelled", error.toException());
             }
         });
     }
