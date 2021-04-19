@@ -169,4 +169,17 @@
         app:layout_constraintStart_toStartOf="@+id/editbox_new_coupon_pricediscount"
         app:layout_constraintTop_toTopOf="@+id/textView_new_coupon_date" />
 
+    <Button
+        android:id="@+id/button_coupon_delete"
+        android:layout_width="128dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:text="DELETE"
+        app:backgroundTint="#F44336"
+        app:layout_constraintEnd_toEndOf="@+id/button_new_coupon_save"
+        app:layout_constraintStart_toEndOf="@+id/imageView_add_coupon"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
