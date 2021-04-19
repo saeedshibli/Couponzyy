@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserDao {
 
     @Query("select * from User where isShop=1")
-    LiveData<List<User>> getAllSellers();
+    List<User> getAllSellers();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(User... users);

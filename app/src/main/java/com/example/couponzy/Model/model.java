@@ -126,12 +126,12 @@ public class model {
     public interface getUserByIdListener extends Listener<User> {
     }
 
-    LiveData<List<User>> SellersList;
+    List<User> SellersList;
 
-    public LiveData<List<User>> getSellers() {
+    public List<User> getSellers() {
         if (SellersList == null) {
-            SellersList = CouponzyLocalDB.db.userDao().getAllSellers();
             getAllSellers(null);
+            SellersList = CouponzyLocalDB.db.userDao().getAllSellers();
         }
         return SellersList;
     }
