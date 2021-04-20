@@ -60,7 +60,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int len=sellers.size();
         for(User seller:sellers){
             LatLng pos=new LatLng(seller.lat,seller.lon);
-            Marker mkr = mMap.addMarker(new MarkerOptions().position(pos).title(seller.firstname + " "+ seller.lastname + " " + seller.email + " "+ seller.phone));
+            Marker mkr = mMap.addMarker(new MarkerOptions().position(pos).title(seller.firstname + " "+ seller.lastname));
+            mkr.setSnippet(seller.email + " "+ seller.phone);
         }
         // Add a marker in Sydney and move the camera
         LatLng middle = new LatLng(lat, lon);
