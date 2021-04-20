@@ -88,6 +88,14 @@ public class EditCouponFragment extends AddCouponFragment {
                 editPost();
             }
         });
+        delete = view.findViewById(R.id.button_coupon_delete);
+        delete.setVisibility(View.VISIBLE);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletePost();
+            }
+        });
 
         final String couponId = CouponDetailsFragmentArgs.fromBundle(getArguments()).getCouponId();
         Log.d("couponId:",couponId);
@@ -136,21 +144,21 @@ public class EditCouponFragment extends AddCouponFragment {
             return;
         }
 
-//        FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                String Firstname = snapshot.child("firstname").getValue().toString();
-//                String Lastname = snapshot.child("lastname").getValue().toString();
-//                post.setUserName(Firstname + Lastname);
-//                String ImgUrl = snapshot.child("imgURL").getValue().toString();
-//                post.setProfileImg(ImgUrl);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String Firstname = snapshot.child("firstname").getValue().toString();
+                String Lastname = snapshot.child("lastname").getValue().toString();
+                post.setUserName(Firstname + Lastname);
+                String ImgUrl = snapshot.child("imgURL").getValue().toString();
+                post.setProfileImg(ImgUrl);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         post.setUserId(FireBaseAuth.instance.getUid());
         post.setTimestamp(sdf.format(resultdate).toString());
         post.setExpireDate(sdate);
@@ -177,6 +185,45 @@ public class EditCouponFragment extends AddCouponFragment {
             });
 
     }
+
+    private void deletePost() {
+        final Coupon post = new Coupon();
+
+        sdate = "EXPIRED";
+        post.id= CouponDetailsFragmentArgs.fromBundle(getArguments()).getCouponId();
+        post.couponCode = editCouponViewModel.getCoupon().couponCode;
+        post.title = editCouponViewModel.getCoupon().title;
+        post.description = editCouponViewModel.getCoupon().description;
+        post.price = editCouponViewModel.getCoupon().price;
+        post.discountPrice = editCouponViewModel.getCoupon().discountPrice;
+        post.setUserId(FireBaseAuth.instance.getUid());
+        post.setTimestamp(sdf.format(resultdate).toString());
+        post.setExpireDate(sdate);
+        post.distance = editCouponViewModel.getCoupon().distance;
+        Bitmap bitmap = null;
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        bitmap = drawable.getBitmap();
+
+        model.instance.uploadImage(bitmap, post.getid(), new model.uploadImageListener() {
+            @Override
+            public void onComplete(String ImgUrl) {
+                if (ImgUrl == null) {
+                    displayFailedError();
+                }
+                post.setPostImg(ImgUrl);
+                model.instance.addPost(post, new model.AddPostsListener() {
+                    @Override
+                    public void onComplete() {
+                        Navigation.findNavController(view)
+                                .popBackStack(R.id.nav_home, false);
+                    }
+                });
+            }
+        });
+
+    }
+
+
 
     private void displayFailedError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

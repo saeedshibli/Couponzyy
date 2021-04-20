@@ -48,14 +48,14 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 if(FireBaseAuth.instance.getCurrentUser()==null){
                     startActivity(new Intent(SplashActivity.this, Login_form.class));
-                    overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                    //overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                     finish();
                 }
                 else{
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
                 progressBar.setVisibility(View.INVISIBLE);
-                overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                //overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 finish();
             }
         });

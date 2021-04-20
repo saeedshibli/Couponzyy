@@ -48,7 +48,7 @@ public class AddCouponFragment extends Fragment {
     TextView datepicker;
     ImageView imageView;
     ImageButton imageButton;
-    Button save, cancel;
+    Button save, cancel, delete;
     EditText name, description, price, priceAfterDiscount;
     String sdate;
     SimpleDateFormat sdf;
@@ -105,6 +105,7 @@ public class AddCouponFragment extends Fragment {
 
         cancel = view.findViewById(R.id.button_new_coupon_cancel);
         save = view.findViewById(R.id.button_new_coupon_save);
+        delete = view.findViewById(R.id.button_coupon_delete);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +119,7 @@ public class AddCouponFragment extends Fragment {
                         .popBackStack(R.id.nav_home, false);
             }
         });
+        delete.setVisibility(View.INVISIBLE);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
