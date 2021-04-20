@@ -19,7 +19,7 @@
         <item
             android:id="@+id/nav_map"
             android:icon="@android:drawable/ic_dialog_map"
-            android:title="Find Stores" />
+            android:title="איתור חנויות" />
         <item
             android:id="@+id/nav_Logout"
             android:icon="@drawable/common_full_open_on_phone"
