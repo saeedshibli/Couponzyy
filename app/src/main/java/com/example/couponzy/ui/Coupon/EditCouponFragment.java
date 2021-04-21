@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,12 +134,27 @@ public class EditCouponFragment extends AddCouponFragment {
         final int random = new Random().nextInt((maxc - minc) + 1) + minc;
         final int random2 = new Random().nextInt((maxu - minu) + 1) + minu;
         post.id= CouponDetailsFragmentArgs.fromBundle(getArguments()).getCouponId();
-
+        if (TextUtils.isEmpty((priceAfterDiscount.getText().toString()))) {
+            Toast.makeText(getActivity(), "Please Enter Price After Discount", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(price.getText().toString())) {
+            Toast.makeText(getActivity(), "Please Enter a Price", Toast.LENGTH_SHORT).show();
+            return;
+        }
         post.couponCode = editCouponViewModel.getCoupon().couponCode;
         post.setTitle(name.getText().toString());
         post.setDescription(description.getText().toString());
         post.setPrice(Double.parseDouble(price.getText().toString()));
         post.setDiscountPrice(Double.parseDouble(priceAfterDiscount.getText().toString()));
+        if(post.price<=post.discountPrice){
+            Toast.makeText(getActivity(), "Discount Price Must Be Lower that Normal Price", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(Double.parseDouble(price.getText().toString())<Double.parseDouble(priceAfterDiscount.getText().toString())){
+            Toast.makeText(getActivity(), "Please Insert PriceAfterDiscount bigger than Normal Price", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(Double.parseDouble(price.getText().toString())<Double.parseDouble(priceAfterDiscount.getText().toString())){
             Toast.makeText(getActivity(), "Please Insert PriceAfterDiscount bigger than Normal Price", Toast.LENGTH_SHORT).show();
             return;
@@ -163,6 +179,18 @@ public class EditCouponFragment extends AddCouponFragment {
         post.setTimestamp(sdf.format(resultdate).toString());
         post.setExpireDate(sdate);
         post.setDistance("0 M");
+        if (TextUtils.isEmpty((post.title))) {
+            Toast.makeText(getActivity(), "Please Enter a Coupon Title", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty((post.description))) {
+            Toast.makeText(getActivity(), "Please Enter a Description", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty((post.expireDate))) {
+            Toast.makeText(getActivity(), "Please Enter an Expire Date", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Bitmap bitmap = null;
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             bitmap = drawable.getBitmap();
