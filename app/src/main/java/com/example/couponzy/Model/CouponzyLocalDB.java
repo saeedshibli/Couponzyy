@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.couponzy.MyApplication;
 
-@Database(entities = {Coupon.class, User.class}, version = 12)
+@Database(entities = {Coupon.class, User.class}, version = 14)
 
 abstract class CouponzyLocalDbRepository extends RoomDatabase {
     public abstract CouponDao couponDao();

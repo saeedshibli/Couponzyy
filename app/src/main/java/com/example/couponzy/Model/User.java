@@ -126,7 +126,7 @@ public class User {
     }
 
 
-    public User(String email, String firstname, String lastname, String id, String dateOfBirth, String gender, String phone, String imgURL, boolean isAdmin, boolean isShop, boolean isUser) {
+    public User(String email, String firstname, String lastname, String id, String dateOfBirth, String gender, String phone, String imgURL, double lat, double lon, boolean isAdmin, boolean isShop, boolean isUser) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -138,8 +138,8 @@ public class User {
         this.isAdmin = isAdmin;
         this.isUser = isUser;
         this.isShop = isShop;
-        this.lat=32.075;
-        this.lon=34.781;
+        this.lat=lat;
+        this.lon=lon;
     }
 
     public User(){
