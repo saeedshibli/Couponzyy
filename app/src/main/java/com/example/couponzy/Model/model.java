@@ -1,14 +1,23 @@
 package com.example.couponzy.Model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.couponzy.MyApplication;
+import com.example.couponzy.login_Register.Login_form;
+import com.example.couponzy.login_Register.Register_form;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -151,9 +160,6 @@ public class model {
         fireBaseDB.getAllPosts(listener);
     }
 
-    public interface getUserByIdListener extends Listener<User> {
-    }
-
     List<User> SellersList;
 
     public List<User> getSellers() {
@@ -202,6 +208,9 @@ public class model {
         });
     }
 
+    public interface getUserByIdListener extends Listener<User> {
+    }
+
     MutableLiveData<User> currentUser = new MutableLiveData<User>();
 
     public MutableLiveData<User> getUserById() {
@@ -234,6 +243,23 @@ public class model {
                 });
             }
         });
+    }
+
+    public interface saveUserListener {
+        void onComplete();
+    }
+
+    public void saveUser(final User user, final saveUserListener listener) {
+
+        FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
+                .setValue(user.toMap())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        listener.onComplete();
+                        Log.d("TAG", "onSuccess Save user");
+                    }
+                });
     }
 
     public interface GetPostByIdListener {

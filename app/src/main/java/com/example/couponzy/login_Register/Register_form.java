@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +43,7 @@ import com.google.firebase.database.DatabaseReference;
 
 public class Register_form extends AppCompatActivity {
 
-    EditText txtemail, txtpassword, txtconfirmpassword, txtphone, txtfirstname, txtlastname, txtid, txtbirthday;
+    EditText txtemail, txtpassword, txtconfirmpassword, txtphone, txtfirstname, txtlastname, txtid, txtbirthday, et_lat, et_long;
     RadioButton male, female, user, shop;
     Button Register;
     ProgressBar progressBar;
@@ -50,6 +51,7 @@ public class Register_form extends AppCompatActivity {
     ImageView imageView;
     ImageButton imageButton;
     String imgPath;
+    Double latNumber, lonNumber;
     boolean flagimg = false;
 
     @Override
@@ -80,6 +82,9 @@ public class Register_form extends AppCompatActivity {
         });
         databaseReference = FireDataBase.instance.getReference("Users");
 
+        et_lat = findViewById(R.id.lat_user);
+        et_long = findViewById(R.id.long_user);
+
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +102,13 @@ public class Register_form extends AppCompatActivity {
                 String RadioUser = user.getText().toString().trim();
                 String RadioShop = shop.getText().toString().trim();
                 String Phone = txtphone.getText().toString().trim();
+                String lat = et_lat.getText().toString().trim();
+                String lon = et_long.getText().toString().trim();
+
+                latNumber = Double.parseDouble(lat);
+                lonNumber = Double.parseDouble(lon);
+                Log.d("TAG", "latNumber = " + latNumber + " | " + "lonNumber = " + lonNumber);
+
                 String Imageurl;
                 if (male.isChecked()) {
                     gender = "Male";
@@ -141,6 +153,14 @@ public class Register_form extends AppCompatActivity {
                     Toast.makeText(Register_form.this, "Please Enter birthday", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (TextUtils.isEmpty((lat))) {
+                    Toast.makeText(Register_form.this, "Please Enter birthday", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty((lon))) {
+                    Toast.makeText(Register_form.this, "Please Enter birthday", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (TextUtils.isEmpty((RadioMale)) && TextUtils.isEmpty((Radiofemale))) {
                     Toast.makeText(Register_form.this, "Please Enter Gender", Toast.LENGTH_SHORT).show();
                     return;
@@ -151,9 +171,9 @@ public class Register_form extends AppCompatActivity {
                 }
                 Bitmap bitmap = null;
                 if (imageView.getDrawable() != null) {
-                        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                        bitmap = drawable.getBitmap();
-                        flagimg = true;
+                    BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                    bitmap = drawable.getBitmap();
+                    flagimg = true;
 
                 }
                 if (flagimg == false) {
@@ -175,7 +195,7 @@ public class Register_form extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         User information;
                                         if (finalBitmap != null) {
-                                            GetImagePath(finalBitmap,id,email);
+                                            GetImagePath(finalBitmap, id, email);
                                         }
                                         try {
                                             Thread.sleep(1500);
@@ -183,9 +203,11 @@ public class Register_form extends AppCompatActivity {
                                             e.printStackTrace();
                                         }
                                         if (finalLevel.equals("User")) {
-                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, false, false, true);
+                                            latNumber = 0.0;
+                                            lonNumber = 0.0;
+                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, false, true);
                                         } else {
-                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, false, true, false);
+                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, true, false);
                                         }
 
 
@@ -209,7 +231,7 @@ public class Register_form extends AppCompatActivity {
 
                                                                 });
                                                     }
-                                                } );
+                                                });
 
 
                                     } else {
@@ -251,22 +273,22 @@ public class Register_form extends AppCompatActivity {
         builder.show();
     }
 
-private String GetImagePath(Bitmap bitmap,String id,String email){
-    final String[] ret = new String[1];
-    model.instance.uploadImage(bitmap, id + email, new model.uploadImageListener() {
-        @Override
-        public void onComplete(String ImgUrl) {
-            if (ImgUrl == null) {
-                displayFailedError();
+    private String GetImagePath(Bitmap bitmap, String id, String email) {
+        final String[] ret = new String[1];
+        model.instance.uploadImage(bitmap, id + email, new model.uploadImageListener() {
+            @Override
+            public void onComplete(String ImgUrl) {
+                if (ImgUrl == null) {
+                    displayFailedError();
+                }
+
+                imgPath = ImgUrl;
+                ret[0] = ImgUrl;
             }
 
-            imgPath = ImgUrl;
-            ret[0] =ImgUrl;
-        }
-
-    });
-return ret[0];
-}
+        });
+        return ret[0];
+    }
     //static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
@@ -301,12 +323,12 @@ return ret[0];
             }
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1:
-            {
+            case 1: {
                 if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, do something you want
@@ -318,6 +340,7 @@ return ret[0];
             }
         }
     }
+
     private void displayFailedError() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Register_form.this);
         builder.setTitle("Operation Failed");
