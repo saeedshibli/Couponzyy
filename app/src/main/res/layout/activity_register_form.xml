@@ -172,14 +172,14 @@
                     android:id="@+id/radioButton_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Male"
+                    android:text="זכר"
                     android:textSize="20sp" />
 
                 <RadioButton
                     android:id="@+id/radioButton_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Female"
+                    android:text="נקבה"
                     android:textSize="20sp" />
 
                 <EditText
@@ -253,14 +253,14 @@
                     android:id="@+id/radioButton_User"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="User"
+                    android:text="לקוח"
                     android:textSize="20sp" />
 
                 <RadioButton
                     android:id="@+id/radioButton_shop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shop"
+                    android:text="חנות"
                     android:textSize="20sp" />
 
             </RadioGroup>
