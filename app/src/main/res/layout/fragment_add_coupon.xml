@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Cancel"
+        android:text="ביטול"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_new_coupon_save"
         app:layout_constraintStart_toStartOf="parent" />
@@ -139,9 +139,9 @@
         android:id="@+id/button_new_coupon_save"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:text="Save"
+        android:text="שמירה"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_new_coupon_cancel" />
@@ -168,5 +168,18 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView_new_coupon_date"
         app:layout_constraintStart_toStartOf="@+id/editbox_new_coupon_pricediscount"
         app:layout_constraintTop_toTopOf="@+id/textView_new_coupon_date" />
+
+    <Button
+        android:id="@+id/button_coupon_delete"
+        android:layout_width="128dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="16dp"
+        android:text="מחיקה"
+        app:backgroundTint="#F44336"
+        app:layout_constraintEnd_toEndOf="@+id/button_new_coupon_save"
+        app:layout_constraintStart_toEndOf="@+id/imageView_add_coupon"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

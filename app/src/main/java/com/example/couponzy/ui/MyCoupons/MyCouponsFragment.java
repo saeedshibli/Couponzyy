@@ -20,7 +20,6 @@ import com.example.couponzy.Adapter.MyAdapter;
 import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
-import com.example.couponzy.ui.CouponsLine.CouponsLineFragmentDirections;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 

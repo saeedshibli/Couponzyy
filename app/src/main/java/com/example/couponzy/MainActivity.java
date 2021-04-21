@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             // Passing each menu ID as a set of Ids because each
             // menu should be considered as top level destinations.
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_gallery, R.id.nav_home, R.id.nav_slideshow, R.id.nav_Logout)
+                    R.id.nav_gallery, R.id.nav_home, R.id.nav_slideshow, R.id.nav_Logout,R.id.nav_map)
                     .setOpenableLayout(drawer)
                     .build();
         /*Adding Custom Email and Username to HeaderPanel*/
@@ -72,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 String Lastname=snapshot.child("lastname").getValue().toString();
                 name.setText("ברוך הבא "+ Firstname+" "+Lastname);
                 userImage.setImageResource(R.drawable.ic_baseline_person_24);
-                if (snapshot.child("imgURL").getValue().toString() != null&&snapshot.child("imgURL").getValue().toString()!=""){
-                    Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                if(snapshot.child("imgURL").getValue()!=null) {
+                    if (snapshot.child("imgURL").getValue().toString() != null && snapshot.child("imgURL").getValue().toString() != "") {
+                        Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                    }
                 }
                 Type=Boolean.parseBoolean(snapshot.child("isUser").getValue().toString());
                 if(Type==true){
@@ -92,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
             FireBaseAuth.instance.signOut();
             startActivity(new Intent(getApplicationContext(), Login_form.class));
             overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+            return true;
+        });
+
+        /*adding map*/
+        navigationView.getMenu().findItem(R.id.nav_map).setOnMenuItemClickListener(menuItem->{
+            //Navigation.findNavController(navigationView.getRootView()).navigate(R.id.action_nav_home_to_mapsActivity);
+            startActivity(new Intent(getApplicationContext(),MapsActivity.class));
             return true;
         });
 

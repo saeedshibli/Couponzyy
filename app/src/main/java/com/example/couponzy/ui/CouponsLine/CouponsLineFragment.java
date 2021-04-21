@@ -37,7 +37,6 @@ public class CouponsLineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         couponsLineViewModel = new ViewModelProvider(this).get(CouponsLineViewModel.class);
-
         View view = inflater.inflate(R.layout.fragment_couponsline, container, false);
         progressBar=view.findViewById(R.id.PostsList_progressBar);
         postslist = (RecyclerView)view.findViewById(R.id.main_recycler_v_gallery);

@@ -15,6 +15,8 @@ public class CouponsLineViewModel extends ViewModel {
     }
 
     public LiveData<List<Coupon>> getCoupons() {
+
         return Coupons;
+
     }
 }
