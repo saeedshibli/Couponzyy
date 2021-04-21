@@ -130,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Cancel"
+        android:text="ביטול"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_new_coupon_save"
         app:layout_constraintStart_toStartOf="parent" />
@@ -141,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Save"
+        android:text="שמירה"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_new_coupon_cancel" />
@@ -176,7 +176,7 @@
         android:layout_marginStart="135dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="16dp"
-        android:text="DELETE"
+        android:text="מחיקה"
         app:backgroundTint="#F44336"
         app:layout_constraintEnd_toEndOf="@+id/button_new_coupon_save"
         app:layout_constraintStart_toEndOf="@+id/imageView_add_coupon"
