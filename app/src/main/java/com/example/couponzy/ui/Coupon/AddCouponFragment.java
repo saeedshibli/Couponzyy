@@ -26,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.couponzy.Model.FireBaseAuth;
@@ -52,6 +53,7 @@ public class AddCouponFragment extends Fragment {
     Button save, cancel, delete;
     EditText name, description, price, priceAfterDiscount;
     String sdate;
+    ProgressBar progressBar;
     SimpleDateFormat sdf;
     Date resultdate;
     View view;
@@ -70,6 +72,7 @@ public class AddCouponFragment extends Fragment {
         description = view.findViewById(R.id.editbox_new_coupon_description);
         price = view.findViewById(R.id.editbox_new_coupon_price);
         priceAfterDiscount = view.findViewById(R.id.editbox_new_coupon_pricediscount);
+        progressBar = view.findViewById(R.id.add_coupon_progressbar2);
 
         /*DatePicker*/
         {
@@ -194,6 +197,7 @@ public class AddCouponFragment extends Fragment {
             Toast.makeText(getActivity(), "Please Enter an Expire Date", Toast.LENGTH_SHORT).show();
             return;
         }
+        progressBar.setVisibility(View.VISIBLE);
         Bitmap bitmap = null;
         if (flagimg == true) {
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
@@ -209,6 +213,7 @@ public class AddCouponFragment extends Fragment {
                     model.instance.addPost(post, new model.AddPostsListener() {
                         @Override
                         public void onComplete() {
+                            progressBar.setVisibility(View.GONE);
                             Navigation.findNavController(view)
                                     .popBackStack(R.id.nav_home, false);
                         }
@@ -216,6 +221,7 @@ public class AddCouponFragment extends Fragment {
                 }
             });
         } else {
+            progressBar.setVisibility(View.GONE);
             Toast.makeText(getActivity(), "Please enter a photo", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -68,60 +68,72 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        double lat=31.666,lon=34.952;
-        List<User> sellers=map.getSellers();
-        int len=sellers.size();
-        for(User seller:sellers){
-            Picasso.get().load(seller.getImgURL()).into(target);
-            //Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 150, false);
-            LatLng pos=new LatLng(seller.lat,seller.lon);
-            Marker mkr = mMap.addMarker(new MarkerOptions().position(pos).title(seller.firstname + " "+ seller.lastname));
-            mkr.setSnippet(seller.email + " \n "+ seller.phone + " \n ");
-            //mkr.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker==null?bitmap:smallMarker));
-
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        // Add a marker in Sydney and move the camera
-        LatLng middle = new LatLng(lat, lon);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((middle),8.0f));
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-
+        googleMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
-            public View getInfoWindow(Marker arg0) {
-                return null;
-            }
+            public void onMapLoaded() {
+                mMap = googleMap;
+                double lat=31.666,lon=34.952;
+                List<User> sellers=map.getSellers();
+                int len=sellers.size();
+                for(User seller:sellers){
+                    Picasso.get().load(seller.getImgURL()).into(target);
+                    while(bitmap==null);
+                   // Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 150, false);
+                    LatLng pos=new LatLng(seller.lat,seller.lon);
+                    Marker mkr = mMap.addMarker(new MarkerOptions().position(pos).title(seller.firstname + " "+ seller.lastname));
+                    mkr.setSnippet(seller.email + " \n "+ seller.phone + " \n ");
+                    //mkr.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker==null?bitmap:smallMarker));
 
-            @Override
-            public View getInfoContents(Marker marker) {
+                }
+                // Add a marker in Sydney and move the camera
+                LatLng middle = new LatLng(lat, lon);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom((middle),8.0f));
+                mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
-                LinearLayout info = new LinearLayout(MapsActivity.this);
-                info.setOrientation(LinearLayout.VERTICAL);
+                    @Override
+                    public View getInfoWindow(Marker arg0) {
+                        return null;
+                    }
 
-                TextView title = new TextView(MapsActivity.this);
-                title.setTextColor(Color.BLACK);
-                title.setGravity(Gravity.CENTER);
-                title.setTypeface(null, Typeface.BOLD);
-                title.setText(marker.getTitle());
+                    @Override
+                    public View getInfoContents(Marker marker) {
 
-                TextView snippet = new TextView(MapsActivity.this);
-                snippet.setTextColor(Color.GRAY);
-                snippet.setText(marker.getSnippet());
+                        LinearLayout info = new LinearLayout(MapsActivity.this);
+                        info.setOrientation(LinearLayout.VERTICAL);
 
-                info.addView(title);
-                info.addView(snippet);
+                        TextView title = new TextView(MapsActivity.this);
+                        title.setTextColor(Color.BLACK);
+                        title.setGravity(Gravity.CENTER);
+                        title.setTypeface(null, Typeface.BOLD);
+                        title.setText(marker.getTitle());
 
-                return info;
+                        TextView snippet = new TextView(MapsActivity.this);
+                        snippet.setTextColor(Color.GRAY);
+                        snippet.setText(marker.getSnippet());
+
+                        info.addView(title);
+                        info.addView(snippet);
+
+                        return info;
+                    }
+                });
+                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(MapsActivity.this,MainActivity.class);
+                        intent .putExtra("tag",true);
+                        finish();
+                        startActivity(intent);
+                    }
+                });
             }
         });
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(MapsActivity.this,MainActivity.class);
-                intent .putExtra("tag",true);
-                finish();
-                startActivity(intent);
-            }
-        });
+
     }
     Target target = new Target() {
         @Override
