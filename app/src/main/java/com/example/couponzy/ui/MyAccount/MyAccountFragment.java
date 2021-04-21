@@ -2,6 +2,7 @@ package com.example.couponzy.ui.MyAccount;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,7 +38,10 @@ import androidx.navigation.Navigation;
 import com.example.couponzy.Model.User;
 import com.example.couponzy.Model.model;
 import com.example.couponzy.R;
+import com.example.couponzy.login_Register.Register_form;
 import com.squareup.picasso.Picasso;
+
+import java.util.Calendar;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -51,6 +56,7 @@ public class MyAccountFragment extends Fragment {
     ImageView imageView;
     ImageButton imageButton;
     boolean flagimg = false;
+    DatePickerDialog picker;
     View view;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -67,7 +73,24 @@ public class MyAccountFragment extends Fragment {
         male = view.findViewById(R.id.radioButton_male_edit);
         female = view.findViewById(R.id.radioButton_female_edit);
         txtphone = view.findViewById(R.id.edit_form_phone);
-
+        txtbirthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                txtbirthday.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                            }
+                        }, year, month, day);
+                picker.show();
+            }
+        });
         save = view.findViewById(R.id.edit_form_save_btn);
         cancel = view.findViewById(R.id.edit_form_cancel_btn);
 

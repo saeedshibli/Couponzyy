@@ -72,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
                 String Lastname=snapshot.child("lastname").getValue().toString();
                 name.setText("ברוך הבא "+ Firstname+" "+Lastname);
                 userImage.setImageResource(R.drawable.ic_baseline_person_24);
-                if (snapshot.child("imgURL").getValue().toString() != null&&snapshot.child("imgURL").getValue().toString()!=""){
-                    Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                if(snapshot.child("imgURL").getValue()!=null) {
+                    if (snapshot.child("imgURL").getValue().toString() != null && snapshot.child("imgURL").getValue().toString() != "") {
+                        Picasso.get().load(snapshot.child("imgURL").getValue().toString()).placeholder(R.drawable.ic_baseline_person_24).into(userImage);
+                    }
                 }
                 Type=Boolean.parseBoolean(snapshot.child("isUser").getValue().toString());
                 if(Type==true){

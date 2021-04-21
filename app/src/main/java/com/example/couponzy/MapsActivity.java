@@ -74,11 +74,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         int len=sellers.size();
         for(User seller:sellers){
             Picasso.get().load(seller.getImgURL()).into(target);
-            Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 150, false);
+            //Bitmap smallMarker = Bitmap.createScaledBitmap(bitmap, 150, 150, false);
             LatLng pos=new LatLng(seller.lat,seller.lon);
             Marker mkr = mMap.addMarker(new MarkerOptions().position(pos).title(seller.firstname + " "+ seller.lastname));
             mkr.setSnippet(seller.email + " \n "+ seller.phone + " \n ");
-            mkr.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+            //mkr.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker==null?bitmap:smallMarker));
 
         }
         // Add a marker in Sydney and move the camera
