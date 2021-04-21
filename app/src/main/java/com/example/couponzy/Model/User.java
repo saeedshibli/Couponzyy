@@ -178,8 +178,8 @@ public class User {
         isUser = (boolean) map.get("isUser");
         isShop = (boolean) map.get("isShop");
         lastUpdated = (Long) map.get("lastUpdated");
-        lat = (Double) map.get("lat");
-        lon = (Double) map.get("lon");
+        lat = Double.parseDouble( map.get("lat").toString());
+        lon = Double.parseDouble( map.get("lon").toString());
     }
 
 

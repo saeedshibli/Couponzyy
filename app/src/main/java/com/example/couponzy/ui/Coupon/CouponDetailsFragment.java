@@ -37,6 +37,7 @@ public class CouponDetailsFragment extends AddCouponFragment {
         imageButton.setVisibility(View.INVISIBLE);
         save.setVisibility(View.INVISIBLE);
         cancel.setVisibility(view.INVISIBLE);
+        progressBar.setVisibility(view.INVISIBLE);
 
         couponDetailsViewModel = new ViewModelProvider(this).get(CouponDetailsViewModel.class);
 

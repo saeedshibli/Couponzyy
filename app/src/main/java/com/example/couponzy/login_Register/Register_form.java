@@ -101,6 +101,7 @@ public class Register_form extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 editImage();
+                flagimg=true;
             }
         });
         databaseReference = FireDataBase.instance.getReference("Users");
@@ -127,7 +128,14 @@ public class Register_form extends AppCompatActivity {
                 String Phone = txtphone.getText().toString().trim();
                 String lat = et_lat.getText().toString().trim();
                 String lon = et_long.getText().toString().trim();
-
+                if (TextUtils.isEmpty((lat))) {
+                    Toast.makeText(Register_form.this, "Please Enter latitude", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (TextUtils.isEmpty((lon))) {
+                    Toast.makeText(Register_form.this, "Please Enter longitude", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 latNumber = Double.parseDouble(lat);
                 lonNumber = Double.parseDouble(lon);
                 Log.d("TAG", "latNumber = " + latNumber + " | " + "lonNumber = " + lonNumber);
@@ -176,20 +184,17 @@ public class Register_form extends AppCompatActivity {
                     Toast.makeText(Register_form.this, "Please Enter birthday", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (TextUtils.isEmpty((lat))) {
-                    Toast.makeText(Register_form.this, "Please Enter birthday", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty((lon))) {
-                    Toast.makeText(Register_form.this, "Please Enter birthday", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if (TextUtils.isEmpty((RadioMale)) && TextUtils.isEmpty((Radiofemale))) {
                     Toast.makeText(Register_form.this, "Please Enter Gender", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (TextUtils.isEmpty((RadioUser)) && TextUtils.isEmpty((RadioShop))) {
                     Toast.makeText(Register_form.this, "Please Enter Gender", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (flagimg == false) {
+                    Toast.makeText(Register_form.this, "Please enter a photo", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Bitmap bitmap = null;
@@ -199,13 +204,9 @@ public class Register_form extends AppCompatActivity {
                     flagimg = true;
 
                 }
-                if (flagimg == false) {
-                    Toast.makeText(Register_form.this, "Please enter a photo", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 progressBar.setVisibility(View.VISIBLE);
 
-                if (password.equals((passwordconfirm))) {
+                if (password.equals((passwordconfirm))&&flagimg==true) {
 
                     String finalGender = gender;
                     Bitmap finalBitmap = bitmap;
@@ -216,45 +217,57 @@ public class Register_form extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
-                                        User information;
-                                        if (finalBitmap != null) {
-                                            GetImagePath(finalBitmap, id, email);
-                                        }
-                                        try {
-                                            Thread.sleep(1500);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        if (finalLevel.equals("User")) {
-                                            latNumber = 0.0;
-                                            lonNumber = 0.0;
-                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, false, true);
-                                        } else {
-                                            information = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, true, false);
-                                        }
+                                        final User[] information = new User[1];
+                                        model.instance.uploadImage(finalBitmap, id + email, new model.uploadImageListener() {
+                                            @Override
+                                            public void onComplete(String ImgUrl) {
+                                                if (ImgUrl == null) {
+                                                    displayFailedError();
+                                                }
+
+                                                imgPath = ImgUrl;
+                                                if (finalBitmap != null) {
+                                                    GetImagePath(finalBitmap, id, email);
+                                                }
+                                                try {
+                                                    Thread.sleep(1500);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                if (finalLevel.equals("User")) {
+                                                    latNumber = 0.0;
+                                                    lonNumber = 0.0;
+                                                    information[0] = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, false, true);
+                                                } else {
+                                                    information[0] = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, true, false);
+                                                }
 
 
-                                        FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
-                                                .setValue(information.toMap())
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        while (imgPath == null) ;
-                                                        FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
-                                                                .child("imgURL")
-                                                                .setValue(imgPath.toString())
-                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        FirebaseAuth.getInstance().signOut();
-                                                                        Toast.makeText(Register_form.this, "Registeration Completed", Toast.LENGTH_SHORT).show();
-                                                                        startActivity(new Intent(getApplicationContext(), Login_form.class));
-                                                                    }
+                                                FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
+                                                        .setValue(information[0].toMap())
+                                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void aVoid) {
+                                                                while (imgPath == null) ;
+                                                                FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
+                                                                        .child("imgURL")
+                                                                        .setValue(imgPath.toString())
+                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                FirebaseAuth.getInstance().signOut();
+                                                                                Toast.makeText(Register_form.this, "Registeration Completed", Toast.LENGTH_SHORT).show();
+                                                                                startActivity(new Intent(getApplicationContext(), Login_form.class));
+                                                                            }
 
 
-                                                                });
-                                                    }
-                                                });
+                                                                        });
+                                                            }
+                                                        });
+
+                                            }
+
+                                        });
 
 
                                     } else {

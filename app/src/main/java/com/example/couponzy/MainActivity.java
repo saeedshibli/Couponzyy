@@ -121,9 +121,11 @@ public class MainActivity extends AppCompatActivity {
         FireDataBase.instance.getReference("User").child(currentUserId).child("isUser").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Type=Boolean.parseBoolean(snapshot.getValue().toString());
-                if (Type == true) {
-                    navigationView.getMenu().removeItem(R.id.nav_home);
+                if(snapshot.getValue()!=null) {
+                    Type = Boolean.parseBoolean(snapshot.getValue().toString());
+                    if (Type == true) {
+                        navigationView.getMenu().removeItem(R.id.nav_home);
+                    }
                 }
             }
             @Override
