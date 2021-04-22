@@ -98,11 +98,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
             CheckImg.put(coupon.getid(), coupon.getProfileImg());
         }
             Picasso.get().load(CheckImg.get(coupon.getid())).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
-
-//            if (coupon.getProfileImg() != null ) {
-//                Picasso.get().load(coupon.getProfileImg()).placeholder(R.drawable.ic_baseline_person_24).into(holder.userImage);
-//            }
-
     }
     @Override
     public long getItemId(int position) {
@@ -110,14 +105,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ExampleViewHolder>
     }
     @Override
     public int getItemCount() {
-
         if (list == null) {
             return 0;
         }
         return list.size();
-
-
     }
-
-
 }

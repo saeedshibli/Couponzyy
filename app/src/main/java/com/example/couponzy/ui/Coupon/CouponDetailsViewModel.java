@@ -13,11 +13,7 @@ public class CouponDetailsViewModel extends ViewModel{
 
     private Coupon coupon;
 
-//    public CouponDetailsViewModel() {
-//    }
-
     public void getCoupon(String id, model.GetCouponListener listener) {
         model.instance.getCoupon(id, listener);
-       // return coupon;
     }
 }

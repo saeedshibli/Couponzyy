@@ -55,28 +55,18 @@ public class model {
     Coupon coupon;
 
     public void getCoupon(String id, GetCouponListener listener) {
-       // if (coupon == null) {
-           // String userId = FireBaseAuth.instance.getCurrentUser().getUid();
             Executor myExecutor = Executors.newSingleThreadExecutor();
             myExecutor.execute(() -> {
                 coupon = CouponzyLocalDB.db.couponDao().getCoupon(id);
                 listener.onComplete(coupon);
             });
-
-           // refreshCoupons(null);
-       // }
     }
 
     public interface GetCouponListener {
         void onComplete(Coupon coupon);
     }
 
-
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-
 
     public void refreshCoupons(final GetCouponsListener listener) {
         //1. get local last update date

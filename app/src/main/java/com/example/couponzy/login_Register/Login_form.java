@@ -29,14 +29,12 @@ public class Login_form extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_form);
-
          Login=findViewById(R.id.Login_form_login_btn);
          Register=findViewById(R.id.Login_form_regieter);
          progressBar=findViewById(R.id.activity_login_form_progressbar);
         progressBar.setVisibility(View.INVISIBLE);
          txtemail=findViewById(R.id.Login_form_email);
          txtpassword=findViewById(R.id.Login_form_password);
-
          Register.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
@@ -49,14 +47,12 @@ public class Login_form extends AppCompatActivity {
                 public void onClick(View view) {
                     String email= txtemail.getText().toString().trim();
                     String password=txtpassword.getText().toString().trim();
-
                     if(TextUtils.isEmpty((email))){
                         Toast.makeText(Login_form.this, "Please Enter Email", Toast.LENGTH_SHORT).show();
                     }
                     if(TextUtils.isEmpty((password))){
                         Toast.makeText(Login_form.this, "Please Enter password", Toast.LENGTH_SHORT).show();
                     }
-
                     if(!TextUtils.isEmpty((email)) &&!TextUtils.isEmpty((password))) {
                         progressBar.setVisibility(View.VISIBLE);
                         FireBaseAuth.instance.signInWithEmailAndPassword(email, password)

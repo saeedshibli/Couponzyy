@@ -105,10 +105,8 @@ public class Register_form extends AppCompatActivity {
             }
         });
         databaseReference = FireDataBase.instance.getReference("Users");
-
         et_lat = findViewById(R.id.lat_user);
         et_long = findViewById(R.id.long_user);
-
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,7 +190,6 @@ public class Register_form extends AppCompatActivity {
                     Toast.makeText(Register_form.this, "Please Enter Gender", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 if (flagimg == false) {
                     Toast.makeText(Register_form.this, "Please enter a photo", Toast.LENGTH_SHORT).show();
                     return;
@@ -205,9 +202,7 @@ public class Register_form extends AppCompatActivity {
 
                 }
                 progressBar.setVisibility(View.VISIBLE);
-
                 if (password.equals((passwordconfirm))&&flagimg==true) {
-
                     String finalGender = gender;
                     Bitmap finalBitmap = bitmap;
                     String finalLevel = level;
@@ -241,8 +236,6 @@ public class Register_form extends AppCompatActivity {
                                                 } else {
                                                     information[0] = new User(email, firstname, lastname, id, birthday, finalGender, Phone, imgPath, latNumber, lonNumber, false, true, false);
                                                 }
-
-
                                                 FireDataBase.instance.getReference("User").child(FireBaseAuth.instance.getCurrentUser().getUid())
                                                         .setValue(information[0].toMap())
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -259,17 +252,11 @@ public class Register_form extends AppCompatActivity {
                                                                                 Toast.makeText(Register_form.this, "Registeration Completed", Toast.LENGTH_SHORT).show();
                                                                                 startActivity(new Intent(getApplicationContext(), Login_form.class));
                                                                             }
-
-
                                                                         });
                                                             }
                                                         });
-
                                             }
-
                                         });
-
-
                                     } else {
                                         Toast.makeText(Register_form.this, "Authontication failed", Toast.LENGTH_SHORT).show();
                                     }
@@ -282,7 +269,6 @@ public class Register_form extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void editImage() {

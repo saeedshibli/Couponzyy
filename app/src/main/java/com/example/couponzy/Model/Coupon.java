@@ -23,39 +23,6 @@ public class Coupon {
     private Long lastUpdated;
 
 
-    /*public Coupon(String userName, String userId, String timestamp, String profileImg, String postImg, String expireDate, String couponCode, String description, String title, double price, double discountPrice) {
-        final int minc = 90000;
-        final int maxc = 99999;
-        final int minu = 900000000;
-        final int maxu = 999999999;
-        final int random = new Random().nextInt((maxc - minc) + 1) + minc;
-        final int random2 = new Random().nextInt((maxu - minu) + 1) + minu;
-        this.userName = userName;
-        this.userId = userId;
-        this.timestamp = timestamp;
-        this.profileImg = profileImg;
-        this.postImg = postImg;
-        this.expireDate = expireDate;
-        this.couponCode =GenerateCouponCode.createID();//Integer.toString(random2);
-        this.description = description;
-        this.title = title;
-        this.price = price;
-        this.discountPrice=discountPrice;
-        this.id=Integer.toString(random2);
-        this.lastUpdated= 0L;
-    }*/
-
-    /*public Coupon() {
-        final int min = 90000;
-        final int max = 99999;
-        final int minu = 900000000;
-        final int maxu = 999999999;
-        final int random = new Random().nextInt((max - min) + 1) + min;
-        final int random2 = new Random().nextInt((maxu - minu) + 1) + minu;
-        this.couponCode =Integer.toString(random);
-        this.id=Integer.toString(random2);
-    }*/
-
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
