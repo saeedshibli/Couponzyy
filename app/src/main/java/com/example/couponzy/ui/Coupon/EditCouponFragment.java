@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.couponzy.MainActivity;
 import com.example.couponzy.Model.Coupon;
 import com.example.couponzy.Model.FireBaseAuth;
 import com.example.couponzy.Model.FireDataBase;
@@ -86,7 +87,7 @@ public class EditCouponFragment extends AddCouponFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editPost();
+                editPost(false);
             }
         });
         delete = view.findViewById(R.id.button_coupon_delete);
@@ -94,7 +95,8 @@ public class EditCouponFragment extends AddCouponFragment {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deletePost();
+                editPost(true);
+                //deletePost();
             }
         });
 
@@ -125,7 +127,7 @@ public class EditCouponFragment extends AddCouponFragment {
 
         return view;
     }
-    private void editPost() {
+    private void editPost(boolean ex) {
         final Coupon post = new Coupon();
         final int minc = 90000;
         final int maxc = 99999;
@@ -177,7 +179,12 @@ public class EditCouponFragment extends AddCouponFragment {
         });
         post.setUserId(FireBaseAuth.instance.getUid());
         post.setTimestamp(sdf.format(resultdate).toString());
-        post.setExpireDate(sdate);
+        if(ex==true){
+            post.setExpireDate("EXPIRED");
+        }
+        else {
+            post.setExpireDate(sdate);
+        }
         post.setDistance("0 M");
         if (TextUtils.isEmpty((post.title))) {
             Toast.makeText(getActivity(), "Please Enter a Coupon Title", Toast.LENGTH_SHORT).show();
@@ -192,6 +199,7 @@ public class EditCouponFragment extends AddCouponFragment {
             return;
         }
         Bitmap bitmap = null;
+        if(imageView.getDrawable()!=null) {
             BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
             bitmap = drawable.getBitmap();
 
@@ -211,6 +219,7 @@ public class EditCouponFragment extends AddCouponFragment {
                     });
                 }
             });
+        }
 
     }
 
@@ -228,6 +237,7 @@ public class EditCouponFragment extends AddCouponFragment {
         post.setTimestamp(sdf.format(resultdate).toString());
         post.setExpireDate(sdate);
         post.distance = editCouponViewModel.getCoupon().distance;
+        post.setLastUpdated(editCouponViewModel.getCoupon().getLastUpdated()+1);
         Bitmap bitmap = null;
         BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
         bitmap = drawable.getBitmap();
